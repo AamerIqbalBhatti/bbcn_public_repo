@@ -1,0 +1,305 @@
+{
+ "A|static_iso|ranked|TCGA": {
+  "done_n": 1082,
+  "total": 1082,
+  "accum": {
+   "Resistance_OFF": 83,
+   "Apoptosis_ON": 931,
+   "Proliferation_OFF": 1021
+  },
+  "complete": true
+ },
+ "A|static_seq|ranked|TCGA": {
+  "done_n": 1082,
+  "total": 1082,
+  "accum": {
+   "Resistance_OFF": 83,
+   "Apoptosis_ON": 92,
+   "Proliferation_OFF": 37,
+   "all_three": 31
+  },
+  "complete": true
+ },
+ "A|cde|ranked|TCGA": {
+  "done_n": 1082,
+  "total": 1082,
+  "accum": {
+   "Resistance_OFF": 152,
+   "Apoptosis_ON": 339,
+   "Proliferation_OFF": 705,
+   "Terminal": 38
+  },
+  "complete": true
+ },
+ "A|static_iso|stabilize|TCGA": {
+  "done_n": 1082,
+  "total": 1082,
+  "accum": {
+   "Resistance_OFF": 59,
+   "Apoptosis_ON": 984,
+   "Proliferation_OFF": 922
+  },
+  "complete": true
+ },
+ "A|static_seq|stabilize|TCGA": {
+  "done_n": 1082,
+  "total": 1082,
+  "accum": {
+   "Resistance_OFF": 59,
+   "Apoptosis_ON": 123,
+   "Proliferation_OFF": 25,
+   "all_three": 23
+  },
+  "complete": true
+ },
+ "A|cde|stabilize|TCGA": {
+  "done_n": 1082,
+  "total": 1082,
+  "accum": {
+   "Resistance_OFF": 84,
+   "Apoptosis_ON": 292,
+   "Proliferation_OFF": 424,
+   "Terminal": 33
+  },
+  "complete": true
+ },
+ "A|static_iso|ranked|METABRIC": {
+  "done_n": 1980,
+  "total": 1980,
+  "accum": {
+   "Resistance_OFF": 76,
+   "Apoptosis_ON": 1691,
+   "Proliferation_OFF": 1872
+  },
+  "complete": true
+ },
+ "A|static_seq|ranked|METABRIC": {
+  "done_n": 1980,
+  "total": 1980,
+  "accum": {
+   "Resistance_OFF": 76,
+   "Apoptosis_ON": 107,
+   "Proliferation_OFF": 38,
+   "all_three": 30
+  },
+  "complete": true
+ },
+ "A|cde|ranked|METABRIC": {
+  "done_n": 1980,
+  "total": 1980,
+  "accum": {
+   "Resistance_OFF": 143,
+   "Apoptosis_ON": 662,
+   "Proliferation_OFF": 1208,
+   "Terminal": 14
+  },
+  "complete": true
+ },
+ "A|static_iso|stabilize|METABRIC": {
+  "done_n": 1980,
+  "total": 1980,
+  "accum": {
+   "Resistance_OFF": 53,
+   "Apoptosis_ON": 1755,
+   "Proliferation_OFF": 1806
+  },
+  "complete": true
+ },
+ "A|static_seq|stabilize|METABRIC": {
+  "done_n": 1980,
+  "total": 1980,
+  "accum": {
+   "Resistance_OFF": 53,
+   "Apoptosis_ON": 119,
+   "Proliferation_OFF": 20,
+   "all_three": 17
+  },
+  "complete": true
+ },
+ "A|cde|stabilize|METABRIC": {
+  "done_n": 1980,
+  "total": 1980,
+  "accum": {
+   "Resistance_OFF": 85,
+   "Apoptosis_ON": 571,
+   "Proliferation_OFF": 787,
+   "Terminal": 16
+  },
+  "complete": true
+ },
+ "A|static_iso|ranked|ISPY2": {
+  "done_n": 988,
+  "total": 988,
+  "accum": {
+   "Resistance_OFF": 78,
+   "Apoptosis_ON": 796,
+   "Proliferation_OFF": 924
+  },
+  "complete": true
+ },
+ "A|static_seq|ranked|ISPY2": {
+  "done_n": 988,
+  "total": 988,
+  "accum": {
+   "Resistance_OFF": 78,
+   "Apoptosis_ON": 90,
+   "Proliferation_OFF": 42,
+   "all_three": 34
+  },
+  "complete": true
+ },
+ "A|cde|ranked|ISPY2": {
+  "done_n": 988,
+  "total": 988,
+  "accum": {
+   "Resistance_OFF": 133,
+   "Apoptosis_ON": 389,
+   "Proliferation_OFF": 590,
+   "Terminal": 38
+  },
+  "complete": true
+ },
+ "A|static_iso|stabilize|ISPY2": {
+  "done_n": 988,
+  "total": 988,
+  "accum": {
+   "Resistance_OFF": 51,
+   "Apoptosis_ON": 858,
+   "Proliferation_OFF": 895
+  },
+  "complete": true
+ },
+ "A|static_seq|stabilize|ISPY2": {
+  "done_n": 988,
+  "total": 988,
+  "accum": {
+   "Resistance_OFF": 51,
+   "Apoptosis_ON": 115,
+   "Proliferation_OFF": 18,
+   "all_three": 18
+  },
+  "complete": true
+ },
+ "A|cde|stabilize|ISPY2": {
+  "done_n": 988,
+  "total": 988,
+  "accum": {
+   "Resistance_OFF": 76,
+   "Apoptosis_ON": 341,
+   "Proliferation_OFF": 420,
+   "Terminal": 31
+  },
+  "complete": true
+ },
+ "B|routing|switch|TCGA": {
+  "done_n": 1082,
+  "total": 1082,
+  "accum": {
+   "apop_pct": 50,
+   "surv_pct": 36,
+   "mixed_pct": 14,
+   "surv_uncoupled_pct": 95,
+   "n": 1082,
+   "U_pct": 37,
+   "resist_surv_z": 0.8,
+   "resist_apop_z": 0.32
+  },
+  "complete": true
+ },
+ "B|kernel|ranked|TCGA": {
+  "done_n": 1082,
+  "total": 1082,
+  "accum": {
+   "flip_pct": 47,
+   "ker_designed": 428,
+   "ker_success": 202,
+   "top_node": "PIK3CA"
+  },
+  "complete": true
+ },
+ "B|kernel|stabilize|TCGA": {
+  "done_n": 1082,
+  "total": 1082,
+  "accum": {
+   "flip_pct": 47,
+   "ker_designed": 428,
+   "ker_success": 202,
+   "top_node": "PIK3CA"
+  },
+  "complete": true
+ },
+ "B|routing|switch|METABRIC": {
+  "done_n": 1980,
+  "total": 1980,
+  "accum": {
+   "apop_pct": 48,
+   "surv_pct": 29,
+   "mixed_pct": 22,
+   "surv_uncoupled_pct": 90,
+   "n": 1980,
+   "U_pct": 29,
+   "resist_surv_z": 0.2,
+   "resist_apop_z": 0.11
+  },
+  "complete": true
+ },
+ "B|kernel|ranked|METABRIC": {
+  "done_n": 1980,
+  "total": 1980,
+  "accum": {
+   "flip_pct": 42,
+   "ker_designed": 890,
+   "ker_success": 373,
+   "top_node": "PIK3CA"
+  },
+  "complete": true
+ },
+ "B|kernel|stabilize|METABRIC": {
+  "done_n": 1980,
+  "total": 1980,
+  "accum": {
+   "flip_pct": 42,
+   "ker_designed": 890,
+   "ker_success": 373,
+   "top_node": "PIK3CA"
+  },
+  "complete": true
+ },
+ "B|routing|switch|ISPY2": {
+  "done_n": 988,
+  "total": 988,
+  "accum": {
+   "apop_pct": 51,
+   "surv_pct": 25,
+   "mixed_pct": 23,
+   "surv_uncoupled_pct": 89,
+   "n": 988,
+   "U_pct": 26,
+   "resist_surv_z": 0.32,
+   "resist_apop_z": 0.08
+  },
+  "complete": true
+ },
+ "B|kernel|ranked|ISPY2": {
+  "done_n": 988,
+  "total": 988,
+  "accum": {
+   "flip_pct": 46,
+   "ker_designed": 430,
+   "ker_success": 198,
+   "top_node": "PIK3CA"
+  },
+  "complete": true
+ },
+ "B|kernel|stabilize|ISPY2": {
+  "done_n": 988,
+  "total": 988,
+  "accum": {
+   "flip_pct": 46,
+   "ker_designed": 430,
+   "ker_success": 198,
+   "top_node": "PIK3CA"
+  },
+  "complete": true
+ }
+}

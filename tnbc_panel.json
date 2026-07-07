@@ -1,0 +1,50 @@
+{
+ "TCGA": {
+  "full": {
+   "n": 1082,
+   "apop": 86,
+   "prolif": 94,
+   "allthree": 3
+  },
+  "tnbc": {
+   "n": 237,
+   "apop": 91,
+   "prolif": 97,
+   "allthree": 2
+  },
+  "tnbc_n": 237,
+  "tnbc_pct": 22
+ },
+ "METABRIC": {
+  "full": {
+   "n": 1980,
+   "apop": 85,
+   "prolif": 95,
+   "allthree": 2
+  },
+  "tnbc": {
+   "n": 363,
+   "apop": 88,
+   "prolif": 98,
+   "allthree": 1
+  },
+  "tnbc_n": 363,
+  "tnbc_pct": 18
+ },
+ "ISPY2": {
+  "full": {
+   "n": 988,
+   "apop": 81,
+   "prolif": 94,
+   "allthree": 3
+  },
+  "tnbc": {
+   "n": 279,
+   "apop": 75,
+   "prolif": 95,
+   "allthree": 3
+  },
+  "tnbc_n": 279,
+  "tnbc_pct": 28
+ }
+}

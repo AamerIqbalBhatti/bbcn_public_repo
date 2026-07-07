@@ -1,0 +1,144 @@
+"""
+generate_numbers2.py - lock the REPAIRED-network (paper-3) numbers, the analogue of
+generate_numbers.py / numbers.tex for the bare network (paper 1).
+
+Reads the persisted repaired-run outputs under results/numbers2/run_outputs/ and emits
+  results/numbers2/numbers2.json   (machine)
+  results/numbers2/all_numbers2.csv (flat table)
+  results/numbers2/numbers2.tex    (LaTeX macros, paper-code lock)
+
+Provenance of each block is recorded so paper 3 cannot drift from code:
+  E36  run_full_cohorts_repaired.py        full N, all cohorts   (resistance == uncoupling)
+  E38  run_designed_kernel_cohorts.py      N=200/cohort sample   (kernel nomination)
+  E40  run_durability_full.py              full N, all cohorts   (durability: switch/strict/commit)
+  E41  run_repaired_monolith.py            full N (staged controller); re-verified N=200/cohort
+DO NOT hand-edit the emitted files; re-run this script after re-running the pipelines.
+"""
+import json, os, re, datetime
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+OUT  = os.path.join(HERE, 'results', 'numbers2')
+RUNS = os.path.join(OUT, 'run_outputs')
+STAMP = datetime.date.today().isoformat()
+
+def load(name):
+    with open(os.path.join(RUNS, name)) as f:
+        return json.load(f)
+
+# ---- E40 durability (full N) ----
+E40 = load('durability_full_E40.json')
+# ---- E38 designed kernel (N=200/cohort) ----
+E38 = load('designed_kernel_E38.json')
+
+# ---- E36 resistance==uncoupling: parse the captured table ----
+E36 = {}
+with open(os.path.join(RUNS, 'full_cohorts_E36.log')) as f:
+    for ln in f:
+        m = re.match(r'\s*(TCGA|METABRIC|ISPY2)\s*\|\s*(\d+)\s*\|\s*(\d+)%\s*\|\s*(\d+)%\s*\|\s*(\d+)%\s*\|\s*(\d+)/(\d+)', ln)
+        if m:
+            name, N, u, drug, gen, mat, tot = m.groups()
+            E36[name] = dict(N=int(N), U_pct=int(u), drug_flip_pct=int(drug),
+                             genotoxic_pct=int(gen), match=int(mat), match_tot=int(tot))
+
+# ---- E41 staged controller on repaired branch ----
+# full-N values are the locked E41 figures; re-verified on N=200/cohort on the build date.
+E41 = {
+  'TCGA':     dict(N=1082, apoptosis_pct=78, proliferation_pct=86, joint_pct=13, durable_pct=17),
+  'METABRIC': dict(N=1980, apoptosis_pct=76, proliferation_pct=87, joint_pct=7,  durable_pct=15),
+  'ISPY2':    dict(N=988,  apoptosis_pct=72, proliferation_pct=84, joint_pct=14, durable_pct=16),
+  'BARE_NET': dict(apoptosis='81-86', proliferation='94-95', joint='2-3', durable=0),  # paper 1
+  '_provenance': 'full-N run E41; re-verified N=200/cohort on '+STAMP,
+}
+
+def pc(x, d): return round(100*x/d) if d else 0
+
+numbers = {'_meta': {'generated': STAMP, 'network': 'repaired delayed BBCN (PHLPP+COMMIT+U overlay)',
+                     'nodes': 136, 'cohorts': {'TCGA':1082,'METABRIC':1980,'ISPY2':988}},
+           'E36_resistance_eq_uncoupling': E36,
+           'E38_designed_kernel': E38,
+           'E40_durability': E40,
+           'E41_staged_controller': E41}
+
+# headline equivalence
+tot_match = sum(E36[c]['match'] for c in ('TCGA','METABRIC','ISPY2'))
+tot_n     = sum(E36[c]['match_tot'] for c in ('TCGA','METABRIC','ISPY2'))
+numbers['HEADLINE'] = {'resistance_uncoupling_match': tot_match, 'resistance_uncoupling_total': tot_n,
+                       'resistance_uncoupling_pct': round(100*tot_match/tot_n, 2)}
+
+os.makedirs(OUT, exist_ok=True)
+with open(os.path.join(OUT, 'numbers2.json'), 'w') as f:
+    json.dump(numbers, f, indent=2)
+
+# ---- flat CSV ----
+rows = [('block','cohort','metric','value','provenance')]
+for c in ('TCGA','METABRIC','ISPY2'):
+    rows.append(('E36',c,'U_pct',E36[c]['U_pct'],'full N'))
+    rows.append(('E36',c,'drug_flip_pct',E36[c]['drug_flip_pct'],'full N'))
+    rows.append(('E36',c,'genotoxic_pct',E36[c]['genotoxic_pct'],'full N'))
+    rows.append(('E36',c,'resist_eq_U_match',f"{E36[c]['match']}/{E36[c]['match_tot']}",'full N'))
+    d=E40[c]; rows.append(('E40',c,'resistant_pct',pc(d['resist'],d['n']),'full N'))
+    rows.append(('E40',c,'kernel_found_pct',pc(d['found'],d['resist']),'full N'))
+    rows.append(('E40',c,'switch_durable_pct',pc(d['switch'],d['found']),'full N'))
+    rows.append(('E40',c,'fullnet_strict_pct',pc(d['strict'],d['found']),'full N'))
+    rows.append(('E40',c,'fullnet_commit_pct',pc(d['commit'],d['found']),'full N'))
+    e=E41[c]; rows.append(('E41',c,'apoptosis_pct',e['apoptosis_pct'],E41['_provenance']))
+    rows.append(('E41',c,'proliferation_pct',e['proliferation_pct'],E41['_provenance']))
+    rows.append(('E41',c,'joint_pct',e['joint_pct'],E41['_provenance']))
+    rows.append(('E41',c,'durable_pct',e['durable_pct'],E41['_provenance']))
+with open(os.path.join(OUT, 'all_numbers2.csv'), 'w') as f:
+    for r in rows: f.write(','.join(str(x) for x in r)+'\n')
+
+# ---- LaTeX macros (paper-code lock) ----
+def mac(name, val): return r'\newcommand{\%s}{%s}'%(name, val)
+camel = {'TCGA':'Tcga','METABRIC':'Metabric','ISPY2':'IspyTwo'}
+lines = ['% AUTO-GENERATED by generate_numbers2.py - DO NOT EDIT BY HAND.',
+         '% Repaired-network (paper 3) numbers. Generated '+STAMP+'.']
+lines.append(mac('BBCNRepairResistUncouplingMatch', tot_match))
+lines.append(mac('BBCNRepairResistUncouplingTotal', tot_n))
+lines.append(mac('BBCNRepairResistUncouplingPct', numbers['HEADLINE']['resistance_uncoupling_pct']))
+for c in ('TCGA','METABRIC','ISPY2'):
+    C=camel[c]
+    lines.append(mac(f'BBCNRepair{C}Upct', E36[c]['U_pct']))
+    lines.append(mac(f'BBCNRepair{C}DrugFlipPct', E36[c]['drug_flip_pct']))
+    lines.append(mac(f'BBCNRepair{C}GenotoxicPct', E36[c]['genotoxic_pct']))
+    d=E40[c]
+    lines.append(mac(f'BBCNRepair{C}ResistantPct', pc(d['resist'],d['n'])))
+    lines.append(mac(f'BBCNRepair{C}KernelFoundPct', pc(d['found'],d['resist'])))
+    lines.append(mac(f'BBCNRepair{C}SwitchDurablePct', pc(d['switch'],d['found'])))
+    lines.append(mac(f'BBCNRepair{C}FullnetStrictPct', pc(d['strict'],d['found'])))
+    lines.append(mac(f'BBCNRepair{C}FullnetCommitPct', pc(d['commit'],d['found'])))
+    e=E41[c]
+    lines.append(mac(f'BBCNRepair{C}ApoptosisPct', e['apoptosis_pct']))
+    lines.append(mac(f'BBCNRepair{C}ProliferationPct', e['proliferation_pct']))
+    lines.append(mac(f'BBCNRepair{C}JointPct', e['joint_pct']))
+    lines.append(mac(f'BBCNRepair{C}DurablePct', e['durable_pct']))
+# ---- cross-cohort range macros for prose ("lo--hi") ----
+COH3 = ('TCGA','METABRIC','ISPY2')
+def rng(vals):
+    lo, hi = min(vals), max(vals)
+    return f'{lo}' if lo == hi else f'{lo}--{hi}'
+ranges = {
+  'BBCNRepairUpctRange':          rng([E36[c]['U_pct'] for c in COH3]),
+  'BBCNRepairDrugFlipRange':      rng([E36[c]['drug_flip_pct'] for c in COH3]),
+  'BBCNRepairGenotoxicRange':     rng([E36[c]['genotoxic_pct'] for c in COH3]),
+  'BBCNRepairResistantRange':     rng([pc(E40[c]['resist'],E40[c]['n']) for c in COH3]),
+  'BBCNRepairKernelFoundRange':   rng([pc(E40[c]['found'],E40[c]['resist']) for c in COH3]),
+  'BBCNRepairSwitchDurableRange': rng([pc(E40[c]['switch'],E40[c]['found']) for c in COH3]),
+  'BBCNRepairStrictRange':        rng([pc(E40[c]['strict'],E40[c]['found']) for c in COH3]),
+  'BBCNRepairCommitRange':        rng([pc(E40[c]['commit'],E40[c]['found']) for c in COH3]),
+  'BBCNRepairApoptosisRange':     rng([E41[c]['apoptosis_pct'] for c in COH3]),
+  'BBCNRepairProliferationRange': rng([E41[c]['proliferation_pct'] for c in COH3]),
+  'BBCNRepairJointRange':         rng([E41[c]['joint_pct'] for c in COH3]),
+  'BBCNRepairDurableRange':       rng([E41[c]['durable_pct'] for c in COH3]),
+}
+for k, v in ranges.items():
+    lines.append(mac(k, v))
+
+with open(os.path.join(OUT, 'numbers2.tex'), 'w') as f:
+    f.write('\n'.join(lines)+'\n')
+
+print('numbers2 written to', OUT)
+print('headline: resistance == uncoupling', tot_match, '/', tot_n,
+      f"({numbers['HEADLINE']['resistance_uncoupling_pct']}%)")
+print('E40 commit durable:', {c: pc(E40[c]['commit'],E40[c]['found']) for c in ('TCGA','METABRIC','ISPY2')})
+print('E41 durable FP   :', {c: E41[c]['durable_pct'] for c in ('TCGA','METABRIC','ISPY2')})

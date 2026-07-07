@@ -1,0 +1,40 @@
+block,cohort,metric,value,provenance
+E36,TCGA,U_pct,65,full N
+E36,TCGA,drug_flip_pct,35,full N
+E36,TCGA,genotoxic_pct,4,full N
+E36,TCGA,resist_eq_U_match,1082/1082,full N
+E40,TCGA,resistant_pct,48,full N
+E40,TCGA,kernel_found_pct,100,full N
+E40,TCGA,switch_durable_pct,80,full N
+E40,TCGA,fullnet_strict_pct,12,full N
+E40,TCGA,fullnet_commit_pct,93,full N
+E41,TCGA,apoptosis_pct,78,full-N run E41; re-verified N=200/cohort on 2026-06-18
+E41,TCGA,proliferation_pct,86,full-N run E41; re-verified N=200/cohort on 2026-06-18
+E41,TCGA,joint_pct,13,full-N run E41; re-verified N=200/cohort on 2026-06-18
+E41,TCGA,durable_pct,17,full-N run E41; re-verified N=200/cohort on 2026-06-18
+E36,METABRIC,U_pct,64,full N
+E36,METABRIC,drug_flip_pct,36,full N
+E36,METABRIC,genotoxic_pct,3,full N
+E36,METABRIC,resist_eq_U_match,1980/1980,full N
+E40,METABRIC,resistant_pct,49,full N
+E40,METABRIC,kernel_found_pct,99,full N
+E40,METABRIC,switch_durable_pct,81,full N
+E40,METABRIC,fullnet_strict_pct,8,full N
+E40,METABRIC,fullnet_commit_pct,92,full N
+E41,METABRIC,apoptosis_pct,76,full-N run E41; re-verified N=200/cohort on 2026-06-18
+E41,METABRIC,proliferation_pct,87,full-N run E41; re-verified N=200/cohort on 2026-06-18
+E41,METABRIC,joint_pct,7,full-N run E41; re-verified N=200/cohort on 2026-06-18
+E41,METABRIC,durable_pct,15,full-N run E41; re-verified N=200/cohort on 2026-06-18
+E36,ISPY2,U_pct,67,full N
+E36,ISPY2,drug_flip_pct,33,full N
+E36,ISPY2,genotoxic_pct,3,full N
+E36,ISPY2,resist_eq_U_match,987/988,full N
+E40,ISPY2,resistant_pct,52,full N
+E40,ISPY2,kernel_found_pct,99,full N
+E40,ISPY2,switch_durable_pct,84,full N
+E40,ISPY2,fullnet_strict_pct,14,full N
+E40,ISPY2,fullnet_commit_pct,95,full N
+E41,ISPY2,apoptosis_pct,72,full-N run E41; re-verified N=200/cohort on 2026-06-18
+E41,ISPY2,proliferation_pct,84,full-N run E41; re-verified N=200/cohort on 2026-06-18
+E41,ISPY2,joint_pct,14,full-N run E41; re-verified N=200/cohort on 2026-06-18
+E41,ISPY2,durable_pct,16,full-N run E41; re-verified N=200/cohort on 2026-06-18

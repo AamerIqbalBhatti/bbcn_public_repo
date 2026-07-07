@@ -1,0 +1,31 @@
+{
+ "cohort": "TCGA",
+ "N": 200,
+ "static_hold": {
+  "apoptosis": 91,
+  "proliferation": 87,
+  "resistance": 6,
+  "all3": 4,
+  "apoptosis_durable_pct_of_achieved": 0
+ },
+ "pulsed": {
+  "on1": {
+   "apoptosis": 0,
+   "proliferation": 0,
+   "resistance": 0,
+   "all3": 0
+  },
+  "on2": {
+   "apoptosis": 0,
+   "proliferation": 0,
+   "resistance": 0,
+   "all3": 0
+  },
+  "on3": {
+   "apoptosis": 0,
+   "proliferation": 0,
+   "resistance": 0,
+   "all3": 0
+  }
+ }
+}

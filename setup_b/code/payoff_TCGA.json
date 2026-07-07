@@ -1,0 +1,14 @@
+{
+ "cohort": "TCGA",
+ "N": 1082,
+ "resistant": 522,
+ "held_feasible_pct_of_resistant": 24,
+ "durable_after_pulse_pct_of_resistant": {
+  "0": 0,
+  "10": 24,
+  "25": 24,
+  "50": 24,
+  "100": 24,
+  "300": 24
+ }
+}

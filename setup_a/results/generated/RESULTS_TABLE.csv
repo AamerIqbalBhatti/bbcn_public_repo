@@ -1,0 +1,7 @@
+cohort,regime,N,Resistance_%,Apoptosis_%,Proliferation_%,AllThree_%
+TCGA,Isolated / ideal targets,1082,8,86,94,
+TCGA,Isolated / compatible targets,1082,8,92,91,
+TCGA,Sequenced + state-preservation,1082,8,9,3,3
+METABRIC,Isolated / ideal targets,1980,4,85,95,
+METABRIC,Isolated / compatible targets,1980,4,90,94,
+METABRIC,Sequenced + state-preservation,1980,4,5,2,2

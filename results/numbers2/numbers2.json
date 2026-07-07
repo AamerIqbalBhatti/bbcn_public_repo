@@ -1,0 +1,146 @@
+{
+  "_meta": {
+    "generated": "2026-06-18",
+    "network": "repaired delayed BBCN (PHLPP+COMMIT+U overlay)",
+    "nodes": 136,
+    "cohorts": {
+      "TCGA": 1082,
+      "METABRIC": 1980,
+      "ISPY2": 988
+    }
+  },
+  "E36_resistance_eq_uncoupling": {
+    "TCGA": {
+      "N": 1082,
+      "U_pct": 65,
+      "drug_flip_pct": 35,
+      "genotoxic_pct": 4,
+      "match": 1082,
+      "match_tot": 1082
+    },
+    "METABRIC": {
+      "N": 1980,
+      "U_pct": 64,
+      "drug_flip_pct": 36,
+      "genotoxic_pct": 3,
+      "match": 1980,
+      "match_tot": 1980
+    },
+    "ISPY2": {
+      "N": 988,
+      "U_pct": 67,
+      "drug_flip_pct": 33,
+      "genotoxic_pct": 3,
+      "match": 987,
+      "match_tot": 988
+    }
+  },
+  "E38_designed_kernel": {
+    "TCGA": {
+      "already": 106,
+      "res": 94,
+      "found": 94,
+      "stat": 94,
+      "dyn": 13,
+      "genes": {
+        "PDPK1": 48,
+        "PIK3CA": 72,
+        "AKT1": 81,
+        "PTEN": 16,
+        "MTOR": 46
+      },
+      "N": 200
+    },
+    "METABRIC": {
+      "already": 98,
+      "res": 102,
+      "found": 102,
+      "stat": 102,
+      "dyn": 10,
+      "genes": {
+        "AKT1": 92,
+        "PTEN": 24,
+        "PIK3CA": 68,
+        "PDPK1": 45,
+        "MTOR": 43
+      },
+      "N": 200
+    },
+    "ISPY2": {
+      "already": 94,
+      "res": 106,
+      "found": 104,
+      "stat": 104,
+      "dyn": 14,
+      "genes": {
+        "PTEN": 12,
+        "PDPK1": 51,
+        "PIK3CA": 90,
+        "AKT1": 90,
+        "MTOR": 43
+      },
+      "N": 200
+    }
+  },
+  "E40_durability": {
+    "TCGA": {
+      "n": 1082,
+      "resist": 523,
+      "found": 522,
+      "strict": 65,
+      "commit": 488,
+      "switch": 418
+    },
+    "METABRIC": {
+      "n": 1980,
+      "resist": 965,
+      "found": 959,
+      "strict": 75,
+      "commit": 885,
+      "switch": 775
+    },
+    "ISPY2": {
+      "n": 988,
+      "resist": 516,
+      "found": 513,
+      "strict": 74,
+      "commit": 487,
+      "switch": 432
+    }
+  },
+  "E41_staged_controller": {
+    "TCGA": {
+      "N": 1082,
+      "apoptosis_pct": 78,
+      "proliferation_pct": 86,
+      "joint_pct": 13,
+      "durable_pct": 17
+    },
+    "METABRIC": {
+      "N": 1980,
+      "apoptosis_pct": 76,
+      "proliferation_pct": 87,
+      "joint_pct": 7,
+      "durable_pct": 15
+    },
+    "ISPY2": {
+      "N": 988,
+      "apoptosis_pct": 72,
+      "proliferation_pct": 84,
+      "joint_pct": 14,
+      "durable_pct": 16
+    },
+    "BARE_NET": {
+      "apoptosis": "81-86",
+      "proliferation": "94-95",
+      "joint": "2-3",
+      "durable": 0
+    },
+    "_provenance": "full-N run E41; re-verified N=200/cohort on 2026-06-18"
+  },
+  "HEADLINE": {
+    "resistance_uncoupling_match": 4049,
+    "resistance_uncoupling_total": 4050,
+    "resistance_uncoupling_pct": 99.98
+  }
+}

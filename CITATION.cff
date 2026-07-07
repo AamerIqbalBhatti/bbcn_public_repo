@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+title: "The Boolean Breast-Cancer Network (BBCN): Structural Controllability of Cell-Fate Signalling and a Bistable Resistance–Apoptosis Switch"
+authors:
+  - family-names: Bhatti
+    given-names: Aamer Iqbal
+type: software
+date-released: 2026-06-25
+url: "https://github.com/AamerIqbalBhatti/Systems_Biology_Journal_2026"
+repository-code: "https://github.com/AamerIqbalBhatti/Systems_Biology_Journal_2026"
+license: CC0-1.0
+keywords:
+  - systems-biology
+  - boolean-networks
+  - breast-cancer
+  - control-theory
+  - cell-fate-signalling

@@ -1,0 +1,72 @@
+{
+  "sample": 30,
+  "E40": {
+    "TCGA": {
+      "n": 30,
+      "resist": 11,
+      "found": 11,
+      "strict": 8,
+      "commit": 10,
+      "switch": 8
+    },
+    "METABRIC": {
+      "n": 30,
+      "resist": 4,
+      "found": 4,
+      "strict": 2,
+      "commit": 4,
+      "switch": 4
+    },
+    "ISPY2": {
+      "n": 30,
+      "resist": 5,
+      "found": 5,
+      "strict": 4,
+      "commit": 5,
+      "switch": 4
+    }
+  },
+  "E41": {
+    "TCGA": {
+      "cnt": 30,
+      "apop": 21,
+      "prolif": 30,
+      "joint": 9,
+      "dcommit": 5
+    },
+    "METABRIC": {
+      "cnt": 30,
+      "apop": 19,
+      "prolif": 30,
+      "joint": 1,
+      "dcommit": 4
+    },
+    "ISPY2": {
+      "cnt": 30,
+      "apop": 24,
+      "prolif": 30,
+      "joint": 6,
+      "dcommit": 3
+    }
+  },
+  "E42": {
+    "TCGA": {
+      "found": 11,
+      "cont": 11,
+      "puls": 11,
+      "capped": 11
+    },
+    "METABRIC": {
+      "found": 4,
+      "cont": 4,
+      "puls": 4,
+      "capped": 4
+    },
+    "ISPY2": {
+      "found": 5,
+      "cont": 5,
+      "puls": 5,
+      "capped": 4
+    }
+  }
+}

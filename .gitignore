@@ -1,0 +1,25 @@
+# ---- Controlled / third-party cohort data: never commit ----
+setup_a/data/binarized/metabric_*
+setup_a/data/binarized/ispy2_*
+setup_a/data/cde_vs_switch_METABRIC.csv
+setup_a/data/cde_vs_switch_ISPY2.csv
+setup_a/data/kernel_composition_METABRIC.csv
+setup_a/data/kernel_composition_ISPY2.csv
+setup_a/data/mutation_gate/tp53_lof_metabric.csv
+setup_a/data/mutation_gate/tp53_lof_ispy2_proxy.csv
+setup_a/pulsed_cmp_METABRIC.json
+setup_a/pulsed_cmp_ISPY2.json
+setup_b/code/payoff_METABRIC.json
+setup_b/code/payoff_ISPY2.json
+setup_b/data/samples/metabric_switch_inputs.tsv
+setup_b/data/samples/ispy2_switch_inputs.tsv
+# TCGA-BRCA (open access) stays tracked.
+# ---- build / cache ----
+__pycache__/
+*.pyc
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.out
+*.toc

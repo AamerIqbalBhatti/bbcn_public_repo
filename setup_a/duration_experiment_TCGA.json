@@ -1,0 +1,44 @@
+{
+ "Apoptosis_ON": {
+  "held_forever_success_pct": 91,
+  "durable_after_release_pct": {
+   "1": 0,
+   "3": 0,
+   "5": 0,
+   "7": 0,
+   "10": 0,
+   "15": 0,
+   "25": 0,
+   "50": 0,
+   "100": 0
+  }
+ },
+ "Proliferation_OFF": {
+  "held_forever_success_pct": 87,
+  "durable_after_release_pct": {
+   "1": 0,
+   "3": 0,
+   "5": 8,
+   "7": 8,
+   "10": 8,
+   "15": 8,
+   "25": 8,
+   "50": 8,
+   "100": 8
+  }
+ },
+ "Resistance_OFF": {
+  "held_forever_success_pct": 6,
+  "durable_after_release_pct": {
+   "1": 0,
+   "3": 0,
+   "5": 2,
+   "7": 2,
+   "10": 2,
+   "15": 2,
+   "25": 2,
+   "50": 2,
+   "100": 2
+  }
+ }
+}
