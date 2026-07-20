@@ -30,7 +30,7 @@
 \renewcommand{\authornote}[1]{}
 
 \title{\textbf{Localised stabilisation of a bistable switch for minimal-kernel phenotype control in a Boolean breast-cancer network}}
-\author[1]{Aamer Iqbal Bhatti\thanks{Corresponding author. ORCID: 0000-0002-3373-3388.}}
+\author[1]{Aamer Iqbal Bhatti\thanks{Corresponding author. Email: \texttt{aameriqbal.bhatti@kfupm.edu.sa}. ORCID: 0000-0002-3373-3388.}}
 \affil[1]{Department of Control and Instrumentation Engineering, King Fahd University of Petroleum and Minerals, Dhahran, Saudi Arabia}
 \date{}
 
@@ -175,7 +175,7 @@ and table regenerates from the public repository with one command.
 \section{Methods}
 \label{sec:methods}
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_arch.png}
 \caption{\textbf{The BBCN control-design pipeline.} A shared front end binarises patient mRNA into
@@ -223,9 +223,7 @@ and 3 as one node there and separate nodes here, the update rules coincide for t
 shared nodes. The apoptosis and proliferation readouts, CASP3 and E2F1, follow Taoma's convention.
 
 We extend that base from 117 to 135 nodes across 24 pathway modules. The additions are a DNA-damage
-arm (ATM, ATR, BRCA1, BRCA2, CHEK1, CHEK2), immune-checkpoint nodes, and NF-kB nodes. This 135-node
-network is the baseline. Its complete rules are listed in Appendix~\ref{app:rules}, generated
-directly from the model source. The work also builds on the author's earlier BBCN118
+arm (ATM, ATR, BRCA1, BRCA2, CHEK1, CHEK2), immune-checkpoint nodes, and NF-kB nodes. The complete rule set of the full model is listed in Appendix~\ref{app:rules}. The work also builds on the author's earlier BBCN118
 framework~\cite{bhatti2026}.
 
 We make three changes to the baseline so that a durable apoptotic state exists. The three changes
@@ -248,8 +246,7 @@ change adds five nodes, PUMA, NOXA, SMAC, CASP6, and CASP7, taking the model to 
 of 141 nodes. It is an addition, not the repair of a collapsed loop, though the executioner loop it
 introduces is itself a feedback structure.
 
-The full 141-node model, with all three changes, is listed in Appendix~\ref{app:repairs}, again
-transcribed from the model source so that the paper and the code agree line by line. We treat the
+ We treat the
 three changes as biology the switch requires, not as findings of this work. Their
 role is to make a durable apoptotic fixed point exist, which Section~\ref{sec:localstab} then shows
 the localised controller can reach.
@@ -298,7 +295,7 @@ TP53, PHLPP, and FOXO3, set by transcription. The remaining network enters the s
 held, patient-derived input snapshot $I$, comprising SRC, RHEB, IGF1R, RTK, CDKN2A, E2F1, ATM, and
 ATR. The snapshot is read from the patient's binarised state and fixed for the run.
 
-\begin{table}[t]
+\begin{table}[H]
 \centering
 \caption{The nine switch nodes, their timescale class, update rate, and role. The three
 classes advance in the ratio $1{:}5{:}25$, and the slow nodes enter the fast rules at a delay.}
@@ -425,7 +422,7 @@ searched in increasing size. The smallest stabilising set is taken. Ties among m
 broken by least causal score, then lexicographically, which is a tiebreak only, since every such
 set already stabilises.
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.6\textwidth]{figures/figC_flow_stabilize.png}
 \caption{\textbf{The forward-stabilisation kernel test.} For each candidate clamp set $S$, the
@@ -510,7 +507,7 @@ the obstruction. Each phenotype is feasible. They cannot be held at once. Succes
 free-dynamics fixed point with no node forced, so this is not an artefact of pinning too few nodes.
 It is a statement about where the network can rest.
 
-\begin{table}[t]
+\begin{table}[H]
 \centering
 \caption{Setup~A controllability (\% of patients reaching a genuine fixed point).}
 \label{tab:setupA}
@@ -540,7 +537,7 @@ phenotype can be feasible yet unreachable under any bounded budget. This is the 
 of the decomposition theorem failing on the pathway partition (Section~\ref{sec:localstab-methods}).
 It is why the apoptosis core must be modelled on its own terms.
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.6\textwidth]{figures/fig2_scc.png}
 \caption{\textbf{The pathway coupling graph.} The dominant 16-pathway strongly-connected component is shaded as the cyclic core; the coupling hubs (AKT1, MAPK1, FOXO3, TP53) are ringed. The two auxiliary input modules are excluded.}
@@ -565,14 +562,14 @@ uncoupled AKT and FOXO3a state, against cohort-wide rates of \BBCNBRoutingSwitch
 threefold. The switch sends the biologically resistant patients to the survival attractor. This is a
 falsifiable alignment, stated in advance, and checkable against independent resistance markers.
 
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures/figB.png}
 \caption{\textbf{The bistable switch (141-node model).} (A) The two attractors and the survival$\to$apoptosis flip under sustained genotoxic stress. (B) Three-cohort routing (robust $z$-score): about half apoptotic, a quarter survival, the rest mixed, consistent across platforms. (C) Biological check: survival-routed patients are 89 to 95\% uncoupled, versus 26 to 37\% cohort-wide.}
 \label{fig:switch}
 \end{figure}
 
-\begin{table}[t]
+\begin{table}[H]
 \centering
 \caption{Setup~B switch routing and biological check (robust $z$-score, full cohorts).}
 \label{tab:setupB}
@@ -623,7 +620,7 @@ differ because in uncoupled cells the survival kinase can reactivate after withd
 readout records a survivor even though the cell has committed. A committed cell does not un-die when a
 kinase switches back on. Both readouts stand far above the baseline network's zero.
 
-\begin{table}[t]
+\begin{table}[H]
 \centering
 \begin{tabular}{lrrrrr}
 \hline
@@ -652,13 +649,13 @@ order of magnitude smaller, about \SwitchSizeTcga\ versus about \WNSizeTcga\ nod
 switch kernel holds the same durable state with a focused, druggable intervention, where the
 whole-network controller needs near whole-network control that is not a deliverable regimen.
 
-\begin{figure}[t]\centering
+\begin{figure}[H]\centering
 \includegraphics[width=\textwidth]{figures/f06_durability.pdf}
 \caption{\new{\textbf{A minimal switch kernel secures the same durable apoptotic state as near whole-network control.} (A) Mean kernel size, about \SwitchSizeTcga\ nodes for the switch versus about \WNSizeTcga\ for the whole-network controller, a roughly \SizeRatio-fold reduction (12--13-fold across cohorts). (B) Durability after kernel withdrawal is essentially equal, with death reached in \HeldPct\% of patients either way. Regenerated by \texttt{fig6.py} from \texttt{setup\_a/data/cde\_vs\_switch\_summary.csv}.}}
 \label{fig:durability}
 \end{figure}
 
-\begin{table}[t]\centering
+\begin{table}[H]\centering
 \caption{\new{Durability and kernel size, switch versus whole-network controller (release-and-persist test on the switch-routed resistant set). Source: \texttt{cde\_vs\_switch\_summary.csv}.}}
 \label{tab:minimality}
 \begin{tabular}{lccc}
@@ -690,7 +687,7 @@ predictor. No survival benefit is claimed. The nominated axis was largely not ad
 chemo-era patients, so there is no response-validation cohort. The analysis is on primary tumours
 only.
 
-\begin{table}[t]\centering\footnotesize
+\begin{table}[H]\centering\footnotesize
 \caption{\new{Kernel-to-drug nominations across the pathway set (source: \texttt{bbcn/drugs.py}).}}
 \label{tab:drugs}
 \setlength{\tabcolsep}{4pt}\begin{tabular}{@{}p{2.2cm}p{2.9cm}p{2.5cm}p{3.2cm}p{1.7cm}@{}}
@@ -812,7 +809,6 @@ manuscript.
 \appendix
 \input{appendix_rules.tex}
 
-\input{appendix_repairs.tex}
 
 \input{appendix_theorem.tex}
 
