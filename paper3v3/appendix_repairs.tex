@@ -1,0 +1,95 @@
+% ============================================================
+%  appendix_repairs.tex : Biology-faithful overlay rules
+%
+%  Transcribed verbatim from the model source
+%  setup_a/bbcn/honest_bbcn.py (step_honest, patient_clamp_off),
+%  covering R1 (p53-MDM2-ATM), R2 (AKT1-FOXO3a-PHLPP + flag U),
+%  and R3 (the explicit caspase-cascade commitment mechanism).
+%
+%  Hand-maintained against the code; NOT the auto-generated
+%  appendix_rules.tex (which lists the BARE 135-node network).
+%
+%  Durability engine: the reported durable-fixed-point figures are
+%  certified on the free caspase cascade (step_honest(cascade=True)),
+%  no node forced. A fully cascade-native controller (kernel search
+%  also on the cascade) is deferred to post-resubmission work and
+%  recovers additional fixed points (~20%); the conservative figure
+%  below is the subset durable under BOTH engines.
+% ============================================================
+
+\section{The biology-faithful overlay (repaired rules)}
+\label{app:repairs}
+
+Appendix~\ref{app:rules} lists the baseline 135-node network verbatim from
+\texttt{pathways.py}. The biology-faithful model applies a runtime overlay that
+leaves \texttt{pathways.py} untouched, replaces the update rules of four baseline
+nodes, and adds six nodes (PHLPP, then PUMA, NOXA, SMAC, CASP6, CASP7), giving a
+\textbf{141-node} signalling model. It also introduces a per-patient uncoupling flag
+$U$. The rules below are transcribed from \texttt{setup\_a/bbcn/honest\_bbcn.py}
+(\texttt{step\_honest}, \texttt{patient\_clamp\_off}); where a rule replaces a
+baseline rule, the baseline form of Appendix~\ref{app:rules} no longer applies.
+
+\paragraph{R1. p53, MDM2, and ATM damage sensor.}\mbox{}\\
+The baseline arm ($\mathrm{MDM2}=\mathrm{TP53}\lor\mathrm{MDM2}$, self-locking, and
+$\mathrm{TP53}=\lnot\mathrm{MDM2}$, no damage input) is replaced by a sensor in which
+DNA damage stabilises p53. The damage signal unions the endogenous sensors (ATM/ATR)
+with the genotoxic treatment input (default $0$):
+\begin{flushleft}\ttfamily\small
+dmg = ATM OR ATR OR genotoxic\\
+MDM2 = (TP53 OR AKT1) AND NOT (CDKN2A AND (E2F1 OR dmg))\\
+TP53 = (NOT MDM2) OR dmg\\
+\end{flushleft}
+
+\paragraph{R2. AKT1, FOXO3a, and PHLPP loop and the uncoupling flag $U$.}\mbox{}\\
+The baseline AKT and FOXO arm ($\mathrm{AKT1}=\mathrm{MTOR}\land\mathrm{PDPK1}\land
+\mathrm{PIK3CA}\land\lnot\mathrm{PTEN}$; $\mathrm{FOXO3}=\lnot\mathrm{AKT1}$) has no
+closing feedback. The repair adds PHLPP (the phosphatase that closes the loop) and a
+per-patient flag $U$ (\texttt{CLAMP\_OFF}), computed once at initialisation from the
+binarised state and held constant: $U=1$ when a strict majority of the AKT-activity
+nodes and both FOXO-nuclear nodes are ON.
+\begin{flushleft}\ttfamily\small
+U = 1 if ( |\{AKT1,MTOR,RPS6KB1,EIF4EBP1\} ON| $>$ 2  AND  |\{FOXO3,FOXO1\} ON| $=$ 2 ) else 0\\
+PHLPP = FOXO3 AND NOT U\\
+AKT1 = ((MTOR AND PDPK1 AND PIK3CA AND NOT PTEN) AND NOT PHLPP) OR (U AND AKT1)\\
+FOXO3 = (NOT AKT1) OR U\\
+\end{flushleft}
+\noindent The term \texttt{(U AND AKT1)} is the self-sustaining uncoupled latch: under
+$U=1$, AKT1 stays high once high. This is an \emph{encoding} of the uncoupled-resistance
+configuration, not an emergent finding; the model then tests which patients survival-axis
+inhibition can flip (the coupled fraction), which is the reported result. PHLPP is
+dynamically inert outside the switch, so the strongly-connected-component and feasibility
+analyses of Section~\ref{sec:obstruction} are identical on the 135- and 136-node
+models.
+
+\paragraph{R3. Commitment by the intrinsic caspase cascade.}\mbox{}\\
+Commitment is the explicit p53$\to$BH3-only$\to$executioner cascade, not an abstract
+brake-zeroing flag. p53 induces PUMA and NOXA, which repress the anti-apoptotic
+guardians; BAX/BAK release SMAC, which neutralises XIAP; and an executioner loop makes
+death irreversible. The five nodes PUMA, NOXA, SMAC, CASP6, CASP7 are added here (CASP8,
+CASP3, and the guardians already exist in the baseline), taking the model to 141 nodes.
+\begin{flushleft}\ttfamily\small
+PUMA = TP53\\
+NOXA = TP53\\
+MCL1 = MCL1 AND NOT NOXA\\
+BCL2 = BCL2 AND NOT PUMA\\
+BCL2L1 = BCL2L1 AND NOT PUMA\\
+SMAC = BAX OR BAK1\\
+XIAP = XIAP AND NOT SMAC\\
+CASP7 = (CASP8 OR CASP9) AND NOT XIAP\\
+CASP6 = CASP3 OR CASP7\\
+CASP8 = CASP8 OR CASP6\\
+CASP3 = (CASP8 OR CASP9) AND NOT XIAP\\
+\end{flushleft}
+\noindent The nodes resolve within the step in the order shown, so the final line closes
+the loop $\mathrm{CASP6}\to\mathrm{CASP8}\to\mathrm{CASP3}\to\mathrm{CASP6}$: once an
+executioner fires it self-sustains, which is the molecular point of no return. No node is
+forced; the guardians fall because PUMA/NOXA/SMAC repress them through these rules.
+
+\paragraph{Durability readout.}\mbox{}\\
+A patient is scored durable when the free dynamics of the 141-node cascade settle to a
+genuine fixed point with $\mathrm{CASP3}=1$ (one synchronous update leaves the state
+unchanged; no node held). Across the three cohorts this holds for
+\textbf{17.1\% (TCGA), 14.6\% (METABRIC), 16.4\% (I-SPY2)} of patients, where the
+baseline 135-node network supports no durable apoptotic fixed point at all (0\%). Every
+reported fixed point is certified under the free cascade; a fully cascade-native kernel
+search recovers a further set (raising the figure to $\sim$20\%) and is future work.
