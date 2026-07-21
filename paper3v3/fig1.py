@@ -7,6 +7,7 @@ Run: python3 fig1.py  ->  figures/fig_arch.png
 import os
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+FS = 1.55  # global font-scale so text is legible at \\textwidth
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -17,10 +18,11 @@ BAR_B,  BAR_R  = "#4472a8", "#b5504f"      # header-bar fills
 GREEN, AMBER, GREY = "#dcefe0", "#faf0d7", "#ededed"
 EB, ER = "#2f5580", "#8f3a3a"
 
-fig, ax = plt.subplots(figsize=(11.0, 8.6))
+fig, ax = plt.subplots(figsize=(10.0, 8.2))
 ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis("off")
 
 def box(x, y, w, h, text, fc, ec="#555", fs=9, bold=False, tc="black", lw=1.2):
+    fs = fs*FS
     ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.35,rounding_size=1.4",
                  fc=fc, ec=ec, lw=lw))
     ax.text(x + w/2, y + h/2, text, ha="center", va="center", fontsize=fs,
@@ -38,15 +40,15 @@ arrow(46, 85.5, 26, 83.2)   # to header bar A
 arrow(54, 85.5, 74, 83.2)   # to header bar B
 
 # ---- header bars (titles clearly outside the content boxes) ----
-box(4, 78.6, 42, 4.4, "SETUP A  \u2014  whole-network controllability (135 nodes)",
+box(4, 78.6, 42, 4.4, "SETUP A:  whole-network controllability",
     BAR_B, ec=EB, fs=9, bold=True, tc="white")
-box(54, 78.6, 42, 4.4, "SETUP B  \u2014  bistable switch (136 nodes: + PHLPP)",
+box(54, 78.6, 42, 4.4, "SETUP B:  bistable switch",
     BAR_R, ec=ER, fs=9, bold=True, tc="white")
 
 # ---- Setup A content ----
 ax_x, ax_w = 4, 42
 A = [
- (69.5, "BBCN Boolean network on the bus\n135 nodes \u00b7 24 pathways \u00b7 $x(t{+}1)=F(x(t))$"),
+ (69.5, "BBCN Boolean network on the bus\n24 pathways $\\cdot$ $x(t{+}1)=F(x(t))$"),
  (60.5, "Tier 3  \u2014  phenotype sequence\nResistance-OFF $\\rightarrow$ Apoptosis-ON $\\rightarrow$ Proliferation-OFF"),
  (51.5, "Tier 2 (21-day cycle)  \u2014  pathway selector\nstatic set, or dynamic by failure class"),
  (42.5, "Tier 1 (1-day step)  \u2014  forward-stabilisation kernel design\nminimal kernel ($\\leq$2, escalate 3); pin, hold, relax"),
@@ -61,7 +63,7 @@ box(ax_x, 26, ax_w, 8, "RESULT: phenotypes individually reachable,\njointly near
 # ---- Setup B content ----
 bx_x, bx_w = 54, 42
 B = [
- (69.5, "Apoptosis core $\\rightarrow$ 9-node AKT1\u2013TP53 switch\nmutual antagonism (bistable)"),
+ (69.5, "Apoptosis core $\\rightarrow$ 9-node AKT1/TP53 switch\nmutual antagonism (bistable)"),
  (60.5, "delayed (autoregressive) multirate engine\nFAST(1) / MID(5) / SLOW(25)  $\\rightarrow$  $X(t{+}1)=CL\\,X(t)$"),
  (51.5, "two attractors of $CL$, each the other's inverse:\nSURVIVAL (AKT$\\uparrow$, p53$\\downarrow$)  \u00b7  APOPTOTIC (p53$\\uparrow$, AKT$\\downarrow$)"),
  (42.5, "forward-stabilisation kernel per box\n(reachability on $CL$ to the apoptotic fixed point)"),
@@ -76,10 +78,10 @@ box(bx_x, 26, bx_w, 8, "RESULT: 3-cohort routing + hysteresis,\nresistance; PI3K
 # ---- bottleneck cross-arrow ----
 arrow(ax_x+ax_w, 30, bx_x, 71, color="#888", lw=1.7)
 ax.text(50, 38, "apoptosis bottleneck\n$\\rightarrow$ re-model the core", ha="center", va="center",
-        fontsize=8.0, style="italic", color="#555",
+        fontsize=8.0*FS, style="italic", color="#555",
         bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="#ccc", lw=0.8))
 
 fig.tight_layout(pad=0.4)
 out = os.path.join(HERE, "figures", "fig_arch.png")
-fig.savefig(out, dpi=200, bbox_inches="tight")
+fig.savefig(out, dpi=220, bbox_inches="tight")
 print("wrote", os.path.relpath(out, HERE))
