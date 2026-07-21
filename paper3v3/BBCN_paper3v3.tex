@@ -56,9 +56,7 @@ substantially from Taoma et al.~\cite{taoma2024} with changes to its feedback wi
 no-forcing whole-network controller shows that the cell-fate phenotypes are individually
 controllable but jointly near-exclusive. They share a dominant strongly-connected core, 16 of 22
 pathways, so feasibility does not imply joint reachability. We therefore reduce the apoptosis core
-to a nine-node bistable switch on the AKT1 and TP53 axis. We embed biological timescale separation
-as a delayed autoregressive system over $\mathrm{GF}(2)$, fast, mid, and slow on a $1{:}5{:}25$
-schedule, in semi-tensor-product form. We then relax global stabilisation, which is intractable on
+to a nine-node bistable switch on the AKT1 and TP53 axis. We embed biological timescale separation as a multirate Boolean switch, fast, mid, and slow on a $1{:}5{:}25$ schedule, with the slow variables sampled and held. We then relax global stabilisation, which is intractable on
 the full network, to localised stabilisation on the switch. A minimal kernel of about two to three
 nodes, concentrated on the PI3K/AKT/mTOR axis, drives the switch to its apoptotic attractor. It
 commits the full 141-node network to a caspase-cascade death fixed point in 15 to 17 percent of
@@ -73,11 +71,16 @@ Targeted agents in breast cancer often shrink a tumour, then lose durable contro
 The drug blocks a signalling hub. The pathway relieves its own brakes. The hub reactivates.
 The most recent approved agent in this class delays relapse rather than preventing it. In
 CAPItello-291, progression-free survival rose from 3.1 to 7.3 months, yet the disease still
-advanced~\cite{turner2023}. The obstacle is not reaching an apoptotic state. It is making
-that state durable, and reaching it with an intervention small enough to deliver. We treat
-this as a control problem. On a Boolean network of the relevant signalling, we seek a
-minimal, druggable intervention. It must drive the network to apoptosis as a genuine fixed
-point of the free dynamics, with no node held on by force.
+advanced~\cite{turner2023}. The obstacle is not reaching an apoptotic state. It is making that state durable. Durability is
+the gap under current treatment. One way a model manufactures a durable death state is to pin
+nodes at fixed values. That is a theoretical device, not a therapy. No drug holds a protein
+clamped in a patient. So a durable state that depends on sustained pinning does not survive
+contact with the clinic. The durability that does survive comes from the dynamics. Drive the
+system into the apoptotic basin of attraction, the set of states from which the free dynamics
+settle to death on their own, and it stays there once the drive is removed. We therefore treat
+therapy as a control problem. On a Boolean network of the relevant signalling, we seek a minimal,
+druggable intervention. It must drive the network into that basin, so the apoptotic state is a
+genuine fixed point of the free dynamics, not one held on by force.
 
 Boolean networks suit this question. They capture the logic of regulation without kinetic
 constants that are rarely measurable~\cite{kauffman1969,thomas1991}. Their predictive value
@@ -95,11 +98,18 @@ feedback-vertex-set~\cite{fiedler2013} methods certify from topology that a targ
 controllable in principle. The second is algebraic control by the semi-tensor
 product~\cite{cheng2009,chengbook2011}. It renders a Boolean control network as a linear map
 over a lifted state space. Controllability, stabilisation, and their time-delayed extensions
-all follow~\cite{lisun2011,ding2018,mu2024}. A separate strand fits a generic model to patient
-omics and simulates drug effects~\cite{montagud2022,beal2019}. These are all powerful. But two
-of them simulate or annotate. They do not design a controller. The structural methods certify
-feasibility. They do not test reachability under a capped, non-accumulating, druggable budget
-on real patient states. This paper is a control design on that budget.
+all follow~\cite{lisun2011,ding2018,mu2024}. This power has one main cost. The lifted space is
+exponential in the number of nodes, and a delay multiplies it further. For a network the size of
+a real signalling model the semi-tensor-product form is too large to build, let alone to design a
+controller on. Global stabilisation by this route is then a theoretical object more than a usable
+one. A separate strand fits a generic model to patient
+omics and simulates drug effects~\cite{montagud2022,beal2019}. These are all powerful. But none of
+them yields a controller under a realistic budget. The simulators annotate rather than design. The
+structural methods certify that a target is controllable in principle, but not with a bounded,
+druggable set of interventions. The algebraic methods, where they stay tractable, deliver global
+stabilisation, which pins far more of the network than any therapy could reach. What is missing is
+control design under a cap, a small, non-accumulating, druggable intervention on real patient
+states. This paper is that design.
 
 Two obstacles stand between feasibility and a deliverable controller. The first is joint
 reachability. Individual phenotypes can each be driven to a fixed point. Reaching them together
@@ -136,34 +146,35 @@ switch, where it stays tractable. The result relaxes the weak-coupling pathway d
 our earlier work~\cite{bhatti2026}. Sequential stabilisation across all pathways becomes a single
 localised action on a bistable core.
 
-The kernel this yields is minimal and druggable. It is about two to three nodes, concentrated on
-the PI3K/AKT/mTOR axis. It holds the apoptotic fixed point as durably as a near whole-network
-controller of about thirty nodes.
+The kernel this yields is the answer to the durability problem. It is minimal and druggable, about
+two to three nodes, concentrated on the PI3K/AKT/mTOR axis. Its job is not to hold the death state
+in place. Its job is to drive the system across the barrier into the apoptotic basin. The free
+dynamics then keep it there, with no sustained forcing. A capped kernel found by our search is
+enough to do this, and the state it reaches is held as durably as a near whole-network controller
+of about thirty nodes. These are not speculative targets. The PI3K, AKT, and mTOR axis is already
+among the most actively drugged in breast cancer, so the kernel the design returns is immediately
+actionable rather than hypothetical.
 
 The network itself is not a contribution. It is adapted substantially from the breast-cancer
-Boolean model of Taoma and colleagues~\cite{taoma2024}. We make three changes to it, and they are
-not of one kind. Two restore collapsed feedback loops. The first is a p53 and MDM2 loop with a
-damage input, where the baseline let MDM2 self-lock and never delivered damage to p53. The second
-is an AKT1 and FOXO3a loop closed by PHLPP, where the baseline arm had no closing feedback. The
-third change is different. It adds the intrinsic caspase commitment cascade, which the baseline
-omits, and which makes apoptotic commitment irreversible. Methods describes all three, and the
-appendix lists them in full. We treat them as model construction, not as findings.
+Boolean model of Taoma and colleagues~\cite{taoma2024}. We adapt that model. Two feedback loops
+are closed: the p53 loop, which carries a DNA-damage input, and the AKT1 and FOXO3a loop, closed
+by PHLPP. The intrinsic caspase cascade is then added, so that apoptotic commitment becomes
+irreversible. Methods gives the detail, and the appendix lists the full model. We treat this as
+model construction, not as a finding.
 
 This paper makes one methodological contribution, with four supporting results. The contribution
 is a control-design principle. On a strongly coupled Boolean cancer network, global stabilisation
 is infeasible. Localised stabilisation of an extracted bistable switch is enough. It steers the
 whole network's phenotype with a minimal, druggable kernel. The supporting results are four.
 First, cell-fate phenotypes are individually controllable but jointly near-exclusive, obstructed
-by a dominant strongly-connected core. Second, a delayed autoregressive $\mathrm{GF}(2)$ embedding
-makes the switch's apoptotic state reachable and stable, where a single-clock model only
-oscillates. Third, a switch-designed kernel of two to three nodes holds the apoptotic fixed point
-as durably as near whole-network control of thirty. Fourth, resistance is a hysteresis property.
+by a dominant strongly-connected core. Second, a multirate Boolean embedding, with the slow variables sampled and held, makes the switch's apoptotic state reachable and stable, where a single-clock model only oscillates. Third, a capped switch-designed kernel of two to three nodes drives the network into the apoptotic
+basin, which then holds as durably as near whole-network control of thirty. Fourth, resistance is a hysteresis property.
 Its control target is the AKT1 and FOXO3a coupling state, and survival-axis inhibition flips
 exactly the coupled fraction. The model is a structural drug-target nominator, not a response
 predictor. We state that scope plainly and return to it in the Discussion.
 
 The paper is organised as follows. Methods covers the cohorts and binarisation, the Taoma-derived
-141-node network and its three corrections, the capped whole-network controller, the delayed
+141-node network and its adaptations, the capped whole-network controller, the delayed
 multirate switch, and the localised-stabilisation kernel design. Results reports the
 joint-reachability obstruction (Section~\ref{sec:obstruction}), the switch and its patient routing
 (Section~\ref{sec:routing}), the localised-stabilisation controller and the apoptosis it secures on
@@ -183,8 +194,7 @@ the initial state (Section~\ref{sec:cohorts-methods}). The whole-network control
 the full 141-node network under a capped, no-forcing budget and reveals the obstruction: the
 cell-fate phenotypes are individually reachable but jointly near-exclusive, held in a dominant
 strongly-connected core (Section~\ref{sec:obstruction}). This motivates re-modelling the apoptosis
-core as a nine-node AKT1 and TP53 bistable switch, expressed as a delayed multirate system over
-$\mathrm{GF}(2)$ (fast/mid/slow on a $1{:}5{:}25$ schedule) in semi-tensor-product form
+core as a nine-node AKT1 and TP53 bistable switch, expressed as a multirate Boolean system (fast/mid/slow on a $1{:}5{:}25$ schedule)
 (Section~\ref{sec:switch-methods}). Localised stabilisation of the switch, with a minimal druggable
 kernel, then commits the full network to a durable apoptotic fixed point
 (Section~\ref{sec:localstab-methods}).}
@@ -205,14 +215,11 @@ Each gene is binarised within its own cohort. The activity score is the robust $
 $(x-\mathrm{median})/(1.4826\cdot\mathrm{MAD})$, taken over all patients in the cohort. The node is
 set ON when the score exceeds zero. The robust estimator is the default. It uses the median and the
 median absolute deviation, not the mean and the standard deviation, so a few extreme expression
-values cannot drag the threshold. Such values are common in skewed RNA-sequencing data. Classic
-$z$-score and hard-median splits are kept only as alternatives for the sensitivity analysis, and the
-qualitative results do not depend on the choice. Some nodes stand for a signalling activity rather
-than one gene. For these a curated multi-gene panel is reduced to one bit by majority vote: the node
-is ON when at least half of its panel genes are ON. The resulting Boolean vector, restricted to the
-network nodes, is the patient's initial state.
+values cannot drag the threshold. Such values are common in skewed RNA-sequencing data. Classic $z$-score and hard-median splits are available as alternatives. Some nodes stand for a signalling activity rather than one gene. For these a curated multi-gene panel is reduced to one bit by majority vote: the node is ON when at least half of its panel genes are ON. The panel memberships are part of the model source. The resulting Boolean vector, restricted to the network nodes, is the patient's initial state.
 
-\subsection{The network: an inherited model with three changes}
+Three features of this encoding should be kept in view. The threshold is the cohort median, so each gene is ON in about half of the cohort by construction. This is a deliberate coarse-graining, suited to a qualitative Boolean model rather than to absolute expression levels. Binarisation is within each cohort, so a state is defined relative to that cohort, and agreement across cohorts is concordance of behaviour, not of absolute activity. And mRNA stands in for signalling activity, which for kinases such as AKT is set after translation, so the initial state is a transcriptional proxy, not a direct activity measurement.
+
+\subsection{The network: an inherited and extended model}
 \label{sec:network-methods}
 
 The network is not a contribution of this paper, and we describe it as construction. It is adapted
@@ -222,34 +229,24 @@ merged complexes and isoforms are re-expressed at individual-gene resolution, fo
 and 3 as one node there and separate nodes here, the update rules coincide for the majority of the
 shared nodes. The apoptosis and proliferation readouts, CASP3 and E2F1, follow Taoma's convention.
 
-We extend that base from 117 to 135 nodes across 24 pathway modules. The additions are a DNA-damage
-arm (ATM, ATR, BRCA1, BRCA2, CHEK1, CHEK2), immune-checkpoint nodes, and NF-kB nodes. The complete rule set of the full model is listed in Appendix~\ref{app:rules}. The work also builds on the author's earlier BBCN118
+We extend that base from 117 to 135 nodes across 24 pathway modules. The additions are a DNA-damage arm (ATM, ATR, BRCA1, BRCA2, CHEK1, CHEK2), immune-checkpoint nodes, and NF-kB nodes. The immune-checkpoint and NF-kB nodes are carried for completeness of the inherited network; the results of this paper exercise the apoptosis core, not those arms. The complete rule set of the full model is listed in Appendix~\ref{app:rules}. The work also builds on the author's earlier BBCN118
 framework~\cite{bhatti2026}.
 
-We make three changes to the baseline so that a durable apoptotic state exists. The three changes
-are not of one kind. Two concern feedback loops. The third adds a mechanism the baseline omits.
+We adapt the model in two respects, each a piece of established apoptosis biology. Two feedback loops are closed, and one commitment mechanism is added. We describe them as biology. Separately, we note that together they are what let a durable apoptotic fixed point exist, which Section~\ref{sec:localstab} then tests, rather than a target we tuned the model toward.
 
 The first is the p53 and MDM2 loop. We represent the negative feedback together with a DNA-damage
 input. MDM2 is driven by TP53 and AKT1 and relieved by the CDKN2A and E2F1 damage arm. TP53 is
 raised by ATM and ATR. This closes the p53 response to damage. It adds no node.
 
-The second is the AKT1 and FOXO3a loop. We close it with PHLPP, the phosphatase that turns AKT1
-back off once FOXO3a is nuclear. PHLPP tracks FOXO3, and PHLPP represses AKT1. This is a
-feedback-loop change. It adds one node, PHLPP, taking the model to 136 nodes.
+The second is the AKT1 and FOXO3a loop~\cite{brunet1999}. We close it with PHLPP, the phosphatase that turns AKT1 back off once FOXO3a is nuclear. PHLPP tracks FOXO3, and PHLPP represses AKT1. This closes the loop. It adds one node, PHLPP, taking the model to 136 nodes.
 
 The third change is different in kind. The baseline has no irreversible commitment step, so an
-apoptotic excursion can reverse. We add the intrinsic caspase cascade. p53 induces PUMA and NOXA, which
-repress the anti-apoptotic guardians. BAX and BAK release SMAC, which neutralises XIAP. An
-executioner loop then closes: CASP6 activates CASP8, CASP8 activates CASP3, and CASP3 feeds back to
-CASP6. Once an executioner fires it self-sustains. This is the molecular point of no return. The
+apoptotic excursion can reverse. We add the intrinsic caspase cascade, whose bistable, self-sustaining behaviour is well characterised~\cite{eissing2004,legewie2006,bagci2006}. p53 induces PUMA and NOXA, which repress the anti-apoptotic guardians. BAX and BAK release SMAC, which neutralises XIAP. An executioner loop then closes: CASP6 activates CASP8, CASP8 activates CASP3, and CASP3 feeds back to CASP6. Once an executioner fires it self-sustains, the molecular point of no return. The
 change adds five nodes, PUMA, NOXA, SMAC, CASP6, and CASP7, taking the model to its full size
 of 141 nodes. It is an addition, not the repair of a collapsed loop, though the executioner loop it
 introduces is itself a feedback structure.
 
- We treat the
-three changes as biology the switch requires, not as findings of this work. Their
-role is to make a durable apoptotic fixed point exist, which Section~\ref{sec:localstab} then shows
-the localised controller can reach.
+ We treat these adaptations as model construction, not as findings of this work. Their role is to let a durable apoptotic fixed point exist, which Section~\ref{sec:localstab} then shows the localised controller can reach.
 
 \subsection{The whole-network controller}
 \label{sec:wncontroller-methods}
@@ -266,34 +263,33 @@ candidate set it ranks pathways, upstream first, and passes one or two down. The
 a single network step, taken as one day, and its unit is kernels. For each selected pathway it
 designs the minimal stabilising kernel and administers it. A cycle is one design step followed by
 free relaxation. The kernel is fixed at the start of the cycle, and the network then evolves freely
-under it. The horizon is eight cycles, about six months.
+under it. The horizon is eight cycles. The day and cycle lengths are an illustrative clinical cadence; the obstruction does not depend on them.
 
 The intervention is capped and does not accumulate. During induction up to two pathways act at once,
 which pins four to five nodes. During maintenance one pathway acts, which pins two or three. The
 kernel is re-decided at each cycle boundary and never exceeds the cap. Prior-cycle pins are not
-retained. The bus state carries forward, but the intervention itself does not. This keeps the
-modelled therapy within a plausible drug-combination budget, and it stops the controller from
-quietly clamping the whole network.
+retained. The bus state carries forward, but the intervention itself does not. This keeps the modelled therapy within a plausible drug-combination budget, and it stops the controller from quietly clamping the whole network. The obstruction we report is therefore a statement about reachability under a deliverable budget. A larger budget would pin more of the network; the point of the cap is that a therapy cannot.
 
 The kernel at each step is found by the same algebraic forward-stabilisation
 test~\cite{rafimanzelat2025} used in Section~\ref{sec:localstab-methods}, applied here at the
-granularity of the pathway module, with the per-module kernels composed in sequence. This is the
-pathway-module partition. It is the partition whose weak-coupling premise
+granularity of the pathway module, with the per-module kernels composed in sequence, in the upstream-first order of the middle tier. A different order could compose differently, so the result is evidence of difficulty under a deliverable, ordered budget, not a proof of impossibility. This is the pathway-module partition. It is the partition whose weak-coupling premise
 Section~\ref{sec:localstab-methods} shows to fail on the apoptosis core, and the timescale partition
 replaces it. Run this controller on the three cohorts and the phenotypes are individually reachable
 but jointly near-exclusive. That obstruction, and the strongly-connected core behind it, are
 reported in Section~\ref{sec:obstruction}.
 
-\subsection{The apoptosis core as a delayed multirate switch}
+\subsection{The apoptosis core as a bistable switch}
 \label{sec:switch-methods}
 
-The apoptosis decision reduces to a small antagonism. AKT1 drives survival. TP53 drives death.
-Each represses the other through the network. We isolate the nine nodes that carry this
-antagonism and call them the switch. Five are fast: AKT1, PTEN, MTOR, PDPK1, and PIK3CA. These are
-phosphorylation events. One is mid: MDM2, on the timescale of protein turnover. Three are slow:
-TP53, PHLPP, and FOXO3, set by transcription. The remaining network enters the switch through a
-held, patient-derived input snapshot $I$, comprising SRC, RHEB, IGF1R, RTK, CDKN2A, E2F1, ATM, and
-ATR. The snapshot is read from the patient's binarised state and fixed for the run.
+The apoptosis decision is carried by a small, well-studied antagonism. AKT1 drives survival. TP53
+drives death. Each represses the other, AKT1 through MDM2 and TP53 through PHLPP and
+FOXO3a~\cite{eissing2004,legewie2006,brunet1999}. We take the nine nodes that carry this antagonism
+as a reduced switch. The reduction is standard and is not a contribution of this paper. The
+contribution is the control design on it (Section~\ref{sec:localstab-methods}). The nodes and their
+timescale classes are given in Table~\ref{tab:switchnodes}: five fast (phosphorylation), one mid
+(protein turnover), and three slow (transcription). The rest of the network enters only through a
+held, patient-derived input snapshot $I$, read once from the binarised state. The full Boolean rules
+are listed in Appendix~\ref{app:rules}.
 
 \begin{table}[H]
 \centering
@@ -319,56 +315,35 @@ FOXO3  & slow & 25 & pro-apoptotic transcription factor \\
 \end{tabular}
 \end{table}
 
-The update rules are Boolean, that is, arithmetic over $\mathrm{GF}(2)$. In the coupled state they
-are
-\begin{align*}
-\mathrm{AKT1}   &= (\mathrm{MTOR}\land\mathrm{PDPK1}\land\mathrm{PIK3CA})\land\lnot\mathrm{PTEN}\land\lnot\mathrm{PHLPP},\\
-\mathrm{PTEN}   &= \lnot\mathrm{SRC}\lor\mathrm{TP53},\\
-\mathrm{MTOR}   &= \mathrm{RHEB}\lor(\mathrm{PIK3CA}\land\lnot\mathrm{PTEN}),\\
-\mathrm{PDPK1}  &= (\mathrm{PIK3CA}\land\lnot\mathrm{PTEN})\lor\mathrm{IGF1R},\\
-\mathrm{PIK3CA} &= \mathrm{RTK},\\
-\mathrm{MDM2}   &= (\mathrm{TP53}\lor\mathrm{AKT1})\land\lnot\big(\mathrm{CDKN2A}\land(\mathrm{E2F1}\lor\mathrm{ATM}\lor\mathrm{ATR})\big),\\
-\mathrm{TP53}   &= \lnot\mathrm{MDM2}\lor\mathrm{ATM}\lor\mathrm{ATR},\\
-\mathrm{PHLPP}  &= \mathrm{FOXO3},\\
-\mathrm{FOXO3}  &= \lnot\mathrm{AKT1}.
-\end{align*}
-The antagonism is visible in two places. AKT1 is repressed by PHLPP, and PHLPP tracks FOXO3, which
-TP53 supports. TP53 is repressed by MDM2, which AKT1 supports. So survival and death each shut the
-other down. This is what makes the switch bistable.
-
-One flag modifies the switch. It is the uncoupled resistant configuration, written $U$. When $U=1$,
-three terms change. AKT1 gains a self-sustaining term and stays high once high. PHLPP loses its
-brake, so $\mathrm{PHLPP}=\mathrm{FOXO3}\land\lnot U$. FOXO3 stays nuclear, so
-$\mathrm{FOXO3}=\lnot\mathrm{AKT1}\lor U$. We stress that $U$ is an encoding, not a finding. It
-records, as a single bit per patient, the AKT and FOXO3a state that clinical work associates with
-resistance. When $U=0$ the three terms collapse and the rules above hold exactly. What the model
-then tests is which patients survival-axis inhibition can move out of the coupled fraction.
-
-Time enters through the update schedule, not the rules. The three classes advance at different
-rates, in the ratio $1{:}5{:}25$. The fast class updates every tick. The mid class updates every
-fifth tick. The slow class updates every twenty-fifth tick. All classes that fire on a given tick
-read the same pre-update snapshot and commit together. There is no approximation in this schedule.
-It is the exact multirate dynamics.
-
-This schedule is a delay-difference system over $\mathrm{GF}(2)$. Between two slow updates the slow
-state is constant. The fast rules that read a slow node, AKT1 reading PHLPP and PTEN reading TP53,
-therefore read that node at a delay. Writing the fast state as $x_f$ and the slow state as $x_s$,
-the fast recurrence has the autoregressive form
+Time enters through the update schedule, not the rules. The three classes advance at rates
+$1{:}5{:}25$. These are not fitted values. They stand for the order-of-magnitude separation between
+the processes: phosphorylation acts in seconds to minutes, protein turnover in minutes to hours, and
+transcription in hours~\cite{faure2006,chaves2006}. Only the separation of scales matters for the
+switch, not the exact integers, and a finer calibration is left to future work. A fast rule that
+reads a slow node reads its value from the last slow update, a sample and hold. Writing the fast
+state as $x_f$ and the slow state as $x_s$,
 \[
-x_f(t{+}1) \;=\; f_f\big(x_f(t),\, x_s(t-\tau_s),\, I\big),\qquad 0 \le \tau_s < 25,
+x_f(t{+}1) = f_f\big(x_f(t),\, x_s\ \text{held},\, I\big),
 \]
-with the slow block held over its own update interval, and a symmetric form for the mid and slow
-blocks. The delay is not a modelling device added for effect. It is what timescale separation looks
-like in a discrete system, and it is the structure that Section~\ref{sec:localstab-methods} exploits
-to make the blocks weakly coupled.
+with the slow block held constant over its own update interval. Over a fast interval the slow block
+is a fixed input, and this is the structure that Section~\ref{sec:localstab-methods} uses to make the
+blocks weakly coupled.
 
-The switch has two attractors, and we label a settled state by them. A state is apoptotic when
-$\mathrm{TP53}=1$ and $\mathrm{AKT1}=0$, and survival when $\mathrm{AKT1}=1$. The two are separated
-by hysteresis: the state the switch settles into depends on where it starts, not only on the input
-snapshot. This bistability is the object of control. The design of Section~\ref{sec:localstab-methods}
-works on the algebraic semi-tensor-product form of these rules, in which one synchronous update of
-a block is a single structure matrix acting on the lifted block state.
+The switch is bistable, and we verify this directly rather than assume it. Enumerating the $2^{9}$
+states, the free dynamics settle to exactly two point attractors: a survival state, with AKT1 high,
+and an apoptotic state, with TP53 high and AKT1 low. Which one a patient reaches depends on the
+initial state, not on the input snapshot alone, so the switch carries hysteresis. That hysteresis is
+the object of control in Section~\ref{sec:localstab-methods}, which works on the semi-tensor-product
+form of these rules, in which one synchronous update of a block is a single structure matrix acting
+on the lifted block state.
 
+One flag, $U$, records the uncoupled resistant configuration as a single bit per patient. It is read
+from the AKT and FOXO3a state that clinical work links to resistance~\cite{brunet1999,chen2010}. When
+$U=1$ it holds AKT1 on and FOXO3a nuclear. The direction of information matters. $U$ is read from the
+patient and encoded, not discovered by the model. Because $U$ both derives from and acts on these
+nodes, the switch does not independently establish that a patient is resistant. What it adds is
+whether survival-axis inhibition moves a patient out of the coupled fraction, the quantity
+Section~\ref{sec:localstab} reports.
 
 \subsection{Localised stabilisation and minimal-kernel design}
 \label{sec:localstab-methods}
@@ -407,8 +382,7 @@ inputs, so it sees the slow block as a frozen parameter, not as a co-evolving va
 slow block does update, it reads a fast block that has already settled. The coupling does not
 vanish. It acts across timescales rather than within one. At any single timescale each block is
 weakly coupled to the others. This is the discrete analogue of timescale separation in singular
-perturbation. The weak-coupling premise now holds block by block. The theorem that failed on the
-pathway partition applies on the timescale partition.
+perturbation. We therefore take the weak-coupling premise to hold block by block, where it failed on the pathway partition. We do not prove the coupling bound for this network. The singular-perturbation reading motivates it, and, as set out below, the endpoint on the full network is checked directly rather than assumed.
 
 We therefore stabilise the switch block locally to its apoptotic attractor. The kernel is the set
 of clamped nodes that achieves this. We find it with the algebraic forward-stabilisation
@@ -460,9 +434,7 @@ A patient is durable when the free dynamics of the full 141-node cascade settle 
 which $\mathrm{CASP3}=1$. The fixed-point test is one synchronous update of the free cascade that
 leaves the state unchanged. No node is held on. The apoptotic state is reached because PUMA, NOXA,
 and SMAC repress the survival guardians through the rules, and the executioner loop
-$\mathrm{CASP6}\to\mathrm{CASP8}\to\mathrm{CASP3}$ self-sustains. It is not reached by forcing any
-executioner node. The durable state is therefore a genuine fixed point of the free dynamics, not a
-forced one.
+$\mathrm{CASP6}\to\mathrm{CASP8}\to\mathrm{CASP3}$ self-sustains. It is not reached by forcing any executioner node. The durable state is therefore a genuine fixed point of the free dynamics, not a forced one. Because no node changes under the update, it is a fixed point under any update order, synchronous or asynchronous alike, so the durability verdict does not depend on the update scheme.
 
 Durability is always certified on the free cascade. Every durable state reported here is a fixed
 point of the free cascade, reached under the rules, with nothing held on.
