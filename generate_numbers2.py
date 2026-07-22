@@ -42,13 +42,9 @@ with open(os.path.join(RUNS, 'full_cohorts_E36.log')) as f:
 
 # ---- E41 staged controller on repaired branch ----
 # full-N values are the locked E41 figures; re-verified on N=200/cohort on the build date.
-E41 = {
-  'TCGA':     dict(N=1082, apoptosis_pct=78, proliferation_pct=86, joint_pct=13, durable_pct=17),
-  'METABRIC': dict(N=1980, apoptosis_pct=76, proliferation_pct=87, joint_pct=7,  durable_pct=15),
-  'ISPY2':    dict(N=988,  apoptosis_pct=72, proliferation_pct=84, joint_pct=14, durable_pct=16),
-  'BARE_NET': dict(apoptosis='81-86', proliferation='94-95', joint='2-3', durable=0),  # paper 1
-  '_provenance': 'full-N run E41; re-verified N=200/cohort on '+STAMP,
-}
+with open(os.path.join(RUNS, 'staged_controller_E41.json')) as f:
+    E41 = {k: v for k, v in json.load(f).items() if not k.startswith('_')}
+E41['_provenance'] = 'full-N run E41; re-verified N=200/cohort on ' + STAMP
 
 def pc(x, d): return round(100*x/d) if d else 0
 
