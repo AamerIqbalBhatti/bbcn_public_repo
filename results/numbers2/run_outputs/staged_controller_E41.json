@@ -1,0 +1,7 @@
+{
+  "_comment": "Derived results from run E41 (staged controller on the biology-faithful branch). Full-N per-cohort phenotype percentages; re-verified N=200/cohort. Contains no patient-level data.",
+  "TCGA":     {"N": 1082, "apoptosis_pct": 78, "proliferation_pct": 86, "joint_pct": 13, "durable_pct": 17},
+  "METABRIC": {"N": 1980, "apoptosis_pct": 76, "proliferation_pct": 87, "joint_pct": 7,  "durable_pct": 15},
+  "ISPY2":    {"N": 988,  "apoptosis_pct": 72, "proliferation_pct": 84, "joint_pct": 14, "durable_pct": 16},
+  "BARE_NET": {"apoptosis": "81-86", "proliferation": "94-95", "joint": "2-3", "durable": 0}
+}

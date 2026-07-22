@@ -1,0 +1,9 @@
+# full_cohorts_E36.log
+# Derived results table from run_full_cohorts_repaired.py (experiment E36).
+# Resistance == AKT/FOXO3a uncoupling, per cohort, full N.
+# Columns: cohort | N | U% | drug_flip% | genotoxic% | match/match_tot
+# Contains no patient-level data (aggregate counts only).
+Cohort   | N    | U%  | drug% | gen% | match/tot
+TCGA     | 1082 | 65% | 35%   | 4%   | 1082/1082
+METABRIC | 1980 | 64% | 36%   | 3%   | 1980/1980
+ISPY2    | 988  | 67% | 33%   | 3%   | 987/988
