@@ -340,10 +340,7 @@ on the lifted block state.
 One flag, $U$, records the uncoupled resistant configuration as a single bit per patient. It is read
 from the AKT and FOXO3a state that clinical work links to resistance~\cite{brunet1999,chen2010}. When
 $U=1$ it holds AKT1 on and FOXO3a nuclear. The direction of information matters. $U$ is read from the
-patient and encoded, not discovered by the model. Because $U$ both derives from and acts on these
-nodes, the switch does not independently establish that a patient is resistant. What it adds is
-whether survival-axis inhibition moves a patient out of the coupled fraction, the quantity
-Section~\ref{sec:localstab} reports.
+patient and encoded, not discovered by the model. Because $U$ both derives from and acts on these nodes, the switch does not independently establish that a patient is resistant. For the same reason, the agreement in Section~\ref{sec:routing} between the survival attractor and the uncoupled state is a consistency check, not an independent validation, because both are computed from AKT and FOXO3a. What it adds is whether survival-axis inhibition moves a patient out of the coupled fraction, the quantity Section~\ref{sec:localstab} reports.
 
 \subsection{Localised stabilisation and minimal-kernel design}
 \label{sec:localstab-methods}
@@ -531,8 +528,7 @@ The routing tracks biology. Survival-routed patients are \BBCNBRoutingSwitchTcga
 \BBCNBRoutingSwitchMetabricSurvUncoupledPct\%, and \BBCNBRoutingSwitchIspyTwoSurvUncoupledPct\% in the
 uncoupled AKT and FOXO3a state, against cohort-wide rates of \BBCNBRoutingSwitchTcgaUPct\%,
 \BBCNBRoutingSwitchMetabricUPct\%, and \BBCNBRoutingSwitchIspyTwoUPct\%, an enrichment of about
-threefold. The switch sends the biologically resistant patients to the survival attractor. This is a
-falsifiable alignment, stated in advance, and checkable against independent resistance markers.
+threefold. The switch sends the biologically resistant patients to the survival attractor. This agreement is expected, because the routing and the flag are both computed from AKT and FOXO3a. It is a consistency check, not an independent validation. A genuine test would use resistance markers from outside the switch.
 
 \begin{figure}[H]
 \centering
@@ -567,7 +563,7 @@ resistance, is emergent from the coupling between blocks.
 The uncoupled state is not a discovery of the model. We encode it as the flag $U$, one bit per
 patient, from the binarised AKT and FOXO3a state, the uncoupling documented as a resistance
 mechanism~\cite{brunet1999,chen2010}. What the model contributes is to make $U$ a control target. On
-the biology-faithful network, survival-axis inhibition durably flips exactly the coupled fraction
+the biology-faithful network, survival-axis inhibition durably flips the coupled fraction
 (\BBCNRepairDrugFlipRange\%), while genotoxic input is the weak lever (\BBCNRepairGenotoxicRange\%).
 Resistance corresponds to the uncoupled fraction, and the control target is the coupling state itself.
 
@@ -596,7 +592,7 @@ kinase switches back on. Both readouts stand far above the baseline network's ze
 \centering
 \begin{tabular}{lrrrrr}
 \hline
-Cohort & Resistant & Kernel commit & Durable FP & Apoptosis & Proliferation \\
+Cohort & Resistant & Kernel commit & Durable FP & Apoptosis-on & Proliferation-off \\
 \hline
 TCGA     & \BBCNRepairTcgaResistantPct\%     & \BBCNRepairTcgaFullnetCommitPct\%     & \BBCNRepairTcgaDurablePct\%     & \BBCNRepairTcgaApoptosisPct\%     & \BBCNRepairTcgaProliferationPct\%     \\
 METABRIC & \BBCNRepairMetabricResistantPct\% & \BBCNRepairMetabricFullnetCommitPct\% & \BBCNRepairMetabricDurablePct\% & \BBCNRepairMetabricApoptosisPct\% & \BBCNRepairMetabricProliferationPct\% \\
@@ -604,7 +600,7 @@ I-SPY2   & \BBCNRepairIspyTwoResistantPct\%   & \BBCNRepairIspyTwoFullnetCommitP
 Baseline & --- & --- & 0\% & 81--86\% & 94--95\% \\
 \hline
 \end{tabular}
-\caption{\textbf{The biology-faithful network, all three cohorts.} Drug-resistance equals AKT--FOXO3a uncoupling for \BBCNRepairResistUncouplingPct\% of \BBCNRepairResistUncouplingTotal\ patients. A designed PI3K/AKT/mTOR kernel commits \BBCNRepairCommitRange\% of resistant patients to apoptosis (commitment readout). The staged controller recovers durable apoptotic fixed points (\BBCNRepairDurableRange\%) absent from the baseline network. All values are macro-sourced from \texttt{numbers2.tex}; resistance, kernel, and durability are full-$N$ runs, with the staged-controller figures re-verified on a per-cohort sample.}
+\caption{\textbf{The biology-faithful network, all three cohorts.} Drug-resistance equals AKT--FOXO3a uncoupling for \BBCNRepairResistUncouplingPct\% of \BBCNRepairResistUncouplingTotal\ patients. A designed PI3K/AKT/mTOR kernel commits \BBCNRepairCommitRange\% of resistant patients to apoptosis (commitment readout). The staged controller recovers durable apoptotic fixed points (\BBCNRepairDurableRange\%) absent from the baseline network. All values are macro-sourced from \texttt{numbers2.tex}; resistance, kernel, and durability are full-$N$ runs, with the staged-controller figures re-verified on a per-cohort sample. Resistant, Durable FP, Apoptosis-on, and Proliferation-off are percentages of the full cohort; Kernel commit is a percentage of the resistant patients.}
 \label{tab:repair}
 \end{table}
 
@@ -647,11 +643,7 @@ Whole-network size (nodes) & \WNSizeTcga & \WNSizeMet & \WNSizeIspy \\
 
 \subsection{Drug-target nomination on the PI3K/AKT/mTOR axis}
 \label{sec:nomination}
-The nominated kernel concentrates on one axis. Tallying the designed kernels by node, PIK3CA leads in
-every cohort, followed by AKT1 and the PDPK1 and MTOR nodes, with PTEN least used. The ordering is
-the same across all three cohorts and essentially identical under both kernel methods
-(Table~\ref{tab:drugs}). The nomination is robust to the cohort and to the kernel-selection
-criterion. It is also robust to the data front-end. Repeated through median-binarised expression,
+The switch kernel concentrates on one axis. Tallying the switch-designed kernels by node, PIK3CA leads in every cohort, followed by AKT1 and the PDPK1 and MTOR nodes, with PTEN least used. The ordering is the same across all three cohorts and essentially identical under both kernel methods. The nomination is robust to the cohort and to the kernel-selection criterion. Separately, the whole-network controller yields a per-pathway nomination across the full pathway set, mapping each pathway's kernel to a drug class and a lead agent (Table~\ref{tab:drugs}). That menu is broader than the switch kernel and spans pathways beyond the PI3K/AKT/mTOR axis. It is also robust to the data front-end. Repeated through median-binarised expression,
 multi-gene activity signatures, and phospho-protein activity, the PI3K/AKT/mTOR nomination holds.
 
 The scope is stated plainly. The model is a structural drug-target nominator, not a response
