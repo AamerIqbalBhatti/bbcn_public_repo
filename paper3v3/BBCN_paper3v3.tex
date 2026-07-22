@@ -234,19 +234,21 @@ framework~\cite{bhatti2026}.
 
 We adapt the model in two respects, each a piece of established apoptosis biology. Two feedback loops are closed, and one commitment mechanism is added. We describe them as biology. Separately, we note that together they are what let a durable apoptotic fixed point exist, which Section~\ref{sec:localstab} then tests, rather than a target we tuned the model toward.
 
-The first is the p53 and MDM2 loop. We represent the negative feedback together with a DNA-damage
+The first is the p53 and MDM2 loop~\cite{wu1993,bakkenist2003}. We represent the negative feedback together with a DNA-damage
 input. MDM2 is driven by TP53 and AKT1 and relieved by the CDKN2A and E2F1 damage arm. TP53 is
 raised by ATM and ATR. This closes the p53 response to damage. It adds no node.
 
-The second is the AKT1 and FOXO3a loop~\cite{brunet1999}. We close it with PHLPP, the phosphatase that turns AKT1 back off once FOXO3a is nuclear. PHLPP tracks FOXO3, and PHLPP represses AKT1. This closes the loop. It adds one node, PHLPP, taking the model to 136 nodes.
+The second is the AKT1 and FOXO3a loop~\cite{brunet1999,gao2005}. We close it with PHLPP, the phosphatase that turns AKT1 back off once FOXO3a is nuclear. PHLPP tracks FOXO3, and PHLPP represses AKT1. This closes the loop. It adds one node, PHLPP, taking the model to 136 nodes.
 
 The third change is different in kind. The baseline has no irreversible commitment step, so an
-apoptotic excursion can reverse. We add the intrinsic caspase cascade, whose bistable, self-sustaining behaviour is well characterised~\cite{eissing2004,legewie2006,bagci2006}. p53 induces PUMA and NOXA, which repress the anti-apoptotic guardians. BAX and BAK release SMAC, which neutralises XIAP. An executioner loop then closes: CASP6 activates CASP8, CASP8 activates CASP3, and CASP3 feeds back to CASP6. Once an executioner fires it self-sustains, the molecular point of no return. The
+apoptotic excursion can reverse. We add the intrinsic caspase cascade, whose bistable, self-sustaining behaviour is well characterised~\cite{eissing2004,legewie2006,bagci2006}. p53 induces PUMA and NOXA~\cite{nakano2001,oda2000}, which repress the anti-apoptotic guardians. BAX and BAK release SMAC, which neutralises XIAP~\cite{verhagen2000}. An executioner loop then closes: CASP6 activates CASP8, CASP8 activates CASP3, and CASP3 feeds back to CASP6. Once an executioner fires it self-sustains, the molecular point of no return. The
 change adds five nodes, PUMA, NOXA, SMAC, CASP6, and CASP7, taking the model to its full size
 of 141 nodes. It is an addition, not the repair of a collapsed loop, though the executioner loop it
 introduces is itself a feedback structure.
 
  We treat these adaptations as model construction, not as findings of this work. Their role is to let a durable apoptotic fixed point exist, which Section~\ref{sec:localstab} then shows the localised controller can reach.
+
+A note on model construction. This is a Boolean model, so it has no fitted parameters or thresholds to tune. Its content is structural: which nodes, and which logic rules. The network structure was fixed on biological grounds, and the cohort analyses were run against the finished model rather than used to shape it. The additions above are corrections against established apoptosis biology, each independently cited, not adjustments made to obtain a result.
 
 \subsection{The whole-network controller}
 \label{sec:wncontroller-methods}
@@ -450,8 +452,7 @@ since TCGA is open. TCGA alone therefore runs end to end out of the box. METABRI
 access, through the European Genome-phenome Archive, with processed data via cBioPortal under its
 data-use terms. I-SPY2 expression is available from GEO series GSE194040. For those two cohorts the
 repository documents the binarisation step, the robust $z$-score of Section~\ref{sec:cohorts-methods},
-rather than shipping the patient-level matrices. An approved user regenerates byte-identical inputs
-and reproduces every downstream number.
+rather than shipping the patient-level matrices. An approved user regenerates byte-identical inputs and reproduces every downstream number. For the controlled-access cohorts, the repository also ships the derived-results files from which the reported numbers regenerate, so number-generation reproduces even without the patient-level data.
 
 \section{Results}
 \label{sec:results}
@@ -652,7 +653,7 @@ chemo-era patients, so there is no response-validation cohort. The analysis is o
 only.
 
 \begin{table}[H]\centering\footnotesize
-\caption{\new{Kernel-to-drug nominations across the pathway set (source: \texttt{bbcn/drugs.py}).}}
+\caption{\new{Kernel-to-drug nominations across the pathway set (source: \texttt{bbcn/drugs.py}). These mappings are illustrative structural nominations, one representative agent per pathway kernel; they are not efficacy claims, and no drug was tested here.}}
 \label{tab:drugs}
 \setlength{\tabcolsep}{4pt}\begin{tabular}{@{}p{2.2cm}p{2.9cm}p{2.5cm}p{3.2cm}p{1.7cm}@{}}
 \toprule
@@ -689,9 +690,7 @@ sits inside a dominant strongly-connected component and the modules are strongly
 abandon the theorem. We change the partition. Splitting the network by process timescale, into fast,
 mid, and slow blocks, makes the coupling between blocks weak, because the delay embedding means each
 block sees the others as fixed over its own update interval. The theorem that failed on the pathway
-partition holds on the timescale partition. This is the transferable idea. When a coupled network
-resists global control, the right move may not be a bigger controller but a better decomposition, and
-timescale separation is one that a delayed system supplies for free.
+partition holds on the timescale partition, under a weak-coupling premise we argue but do not prove for this network. The transferable idea is that when a coupled network resists global control, the remedy may be a better decomposition rather than a bigger controller, and timescale separation is one that a delayed system supplies for free.
 
 The first supporting result is why the switch is necessary at all. Cell-fate phenotypes in this
 network are individually reachable but jointly near-exclusive. They share a dominant
@@ -731,11 +730,13 @@ Park, and Cho and to Fiedler and colleagues~\cite{kimparkcho2013,fiedler2013}, a
 Boolean control formalism to Li and Sun and to Cheng and
 colleagues~\cite{lisun2011,chengbook2011,ding2018}.
 
-The scope is stated plainly. The model's outputs are a patient stratification, which is consistency-checked rather than independently validated, and a PI3K/AKT/mTOR drug-target nomination that is stable across the input front-ends we tested. The model does not
+The scope is stated plainly. The model's outputs are a patient stratification, which is consistency-checked rather than independently validated, because the coupling flag is read from the same AKT and FOXO3a state the switch routes on, so an independent test needs resistance markers measured outside the switch; and a PI3K/AKT/mTOR drug-target nomination that is stable across the input front-ends we tested. The model does not
 predict pathologic complete response, which we attribute to endpoint distance rather than signal
 quality. It is a mechanistic hypothesis generator and a structural stratifier. Clinical benefit is
 not demonstrated here. The uncoupling flag is a proxy read from expression, invasion is out of scope,
 and the analysis is on primary tumours only.
+
+One limitation is foundational, and we state it plainly. The model is single-cell and bistable, but the cohorts are bulk mRNA, each value an average over millions of cells. Near a bistable boundary an average need not correspond to any real cell: a tumour that is part survival-state and part apoptotic-state averages to an intermediate expression that names neither attractor. Binarising that average to seed the switch is therefore a coarse-graining, and it fixes the claim ceiling. The model is a patient-level stratifier and a structural target nominator, quantities a population average can support, not a per-cell attractor predictor, which it cannot. We have seen this directly. In bulk mRNA the coupling flag does not separate survival, and the phospho-AKT to nuclear-FOXO3a association the mechanism requires is close to zero at the population level. Both are expected if averaging collapses the switch, and both indicate where validation must happen: the coupling state should be read per cell, by co-localisation of phospho-AKT and nuclear FOXO3a on the same tissue section, not inferred from a bulk correlation that averaging washes out.
 
 Two steps would raise the translational ceiling. The first is a durability-matched external test.
 Because durability corresponds to relapse avoidance, the direct test is whether AKT and FOXO3a
@@ -826,6 +827,12 @@ manuscript.
 \bibitem{mu2024} Mu, T. et al. A survey on applications of the semi-tensor product method in Boolean control networks with time delays. \emph{Engineering Reports} (2024). DOI: 10.1002/eng2.12760.
 \bibitem{faure2006} Faur\'{e}, A., Naldi, A., Chaouiya, C. \& Thieffry, D. Dynamical analysis of a generic Boolean model for the control of the mammalian cell cycle. \emph{Bioinformatics} \textbf{22}(14), e124--e131 (2006). DOI: 10.1093/bioinformatics/btl210.
 \bibitem{chaves2006} Chaves, M., Sontag, E. D. \& Albert, R. Methods of robustness analysis for Boolean models of gene control networks. \emph{IEE Proc. Syst. Biol.} \textbf{153}(4), 154--167 (2006).
+\bibitem{wu1993} Wu, X., Bayle, J. H., Olson, D. \& Levine, A. J. The p53-mdm-2 autoregulatory feedback loop. \emph{Genes Dev.} \textbf{7}, 1126--1132 (1993).
+\bibitem{bakkenist2003} Bakkenist, C. J. \& Kastan, M. B. DNA damage activates ATM through intermolecular autophosphorylation and dimer dissociation. \emph{Nature} \textbf{421}, 499--506 (2003).
+\bibitem{gao2005} Gao, T., Furnari, F. \& Newton, A. C. PHLPP: a phosphatase that directly dephosphorylates Akt, promotes apoptosis, and suppresses tumor growth. \emph{Mol. Cell} \textbf{18}, 13--24 (2005).
+\bibitem{nakano2001} Nakano, K. \& Vousden, K. H. PUMA, a novel proapoptotic gene, is induced by p53. \emph{Mol. Cell} \textbf{7}, 683--694 (2001).
+\bibitem{oda2000} Oda, E. et al. Noxa, a BH3-only member of the Bcl-2 family and candidate mediator of p53-induced apoptosis. \emph{Science} \textbf{288}, 1053--1058 (2000).
+\bibitem{verhagen2000} Verhagen, A. M. et al. Identification of DIABLO, a mammalian protein that promotes apoptosis by binding to and antagonizing IAP proteins. \emph{Cell} \textbf{102}, 43--53 (2000).
 \end{thebibliography}
 
 \end{document}
