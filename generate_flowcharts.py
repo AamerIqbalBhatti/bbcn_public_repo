@@ -14,7 +14,8 @@ FIGDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "preprint", "f
 def flowchart(steps, title, fname, accent=TEAL):
     """steps: list of (text, kind) where kind in {io, proc, dec, term}."""
     n = len(steps)
-    fig, ax = plt.subplots(figsize=(7.0, 0.95 * n + 1.0), facecolor=BG)
+    fig, ax = plt.subplots(figsize=(5.5, 0.70 * n + 0.8), facecolor=BG)
+    fig.subplots_adjust(left=0.02, right=0.98, top=0.93, bottom=0.02)
     ax.set_xlim(0, 10); ax.set_ylim(0, n); ax.axis("off")
     ax.set_facecolor(BG)
     y = n - 0.5
@@ -70,5 +71,5 @@ stabilize = [
 ]
 
 flowchart(ranked, "Appendix B (i)  -  Ranked reachability heuristic", "figC_flow_ranked.png", accent=TEAL)
-flowchart(stabilize, "Appendix B (ii)  -  Algebraic global-stabilisation test", "figC_flow_stabilize.png", accent=GOLD)
+flowchart(stabilize, "Forward-stabilisation kernel search", "figC_flow_stabilize.png", accent=GOLD)
 print("done")
