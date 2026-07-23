@@ -16,7 +16,7 @@ BAR_B,  BAR_R  = "#4472a8", "#b5504f"
 GREEN, AMBER, GREY = "#dcefe0", "#faf0d7", "#ededed"
 EB, ER = "#2f5580", "#8f3a3a"
 
-FIG_W, FIG_H = 12.5, 9.4
+FIG_W, FIG_H = 9.3, 7.8
 fig, ax = plt.subplots(figsize=(FIG_W, FIG_H))
 ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis("off")
 

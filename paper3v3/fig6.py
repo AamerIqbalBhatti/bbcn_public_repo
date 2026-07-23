@@ -16,7 +16,7 @@ W = [float(rows[c]["cde_union_mean_size"]) for c in order]
 SD = [float(rows[c]["switch_durable_pct"]) for c in order]
 WD = [float(rows[c]["cde_union_durable_pct"]) for c in order]
 x = np.arange(3); w = 0.38; SW, WN = "#1b9e77", "#7f7f7f"
-fig, (axA, axB) = plt.subplots(1, 2, figsize=(9.2, 3.9))
+fig, (axA, axB) = plt.subplots(1, 2, figsize=(6.5, 3.1))
 axA.bar(x-w/2, S, w, label="Switch kernel", color=SW); axA.bar(x+w/2, W, w, label="Whole-network controller", color=WN)
 for i in range(3):
     axA.text(x[i]-w/2, S[i]+0.6, f"{S[i]:.2f}", ha="center", fontsize=8)

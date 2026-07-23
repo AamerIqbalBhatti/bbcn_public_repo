@@ -391,20 +391,9 @@ that pins $S$ to its target values, the controlled matrix $L_c = T_S^z L$, its t
 $\rho$, and the stabilisability matrix $\Omega = L_c^{\rho}\,T_S^z$. The set $S$ stabilises the
 block if and only if every column of $\Omega$ is the target index vector. That is, clamping $S$
 drives every block state to target, not only the patient's current state. Candidate sets are
-searched in increasing size. The smallest stabilising set is taken. Ties among minimal sets are
-broken by least causal score, then lexicographically, which is a tiebreak only, since every such
-set already stabilises.
+searched in increasing size. The smallest stabilising set is taken. Ties among minimal sets are broken by least causal score, then lexicographically, which is a tiebreak only, since every such set already stabilises. The search is summarised step by step in Appendix~\ref{app:kernelsearch}.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.6\textwidth]{figures/figC_flow_stabilize.png}
-\caption{\textbf{The forward-stabilisation kernel test.} For each candidate clamp set $S$, the
-controlled operator $\Omega=L_c^{\rho}T_S^z$ is formed. The set is accepted only if every column of
-$\Omega$ is the target index, that is, the clamp drives every block state to target, not only the
-patient's. Minimal accepted sets are kept and ties are broken deterministically. On the nine-node
-switch block this test is tractable; on the full 141-node network it is not.}
-\label{fig:flowstab}
-\end{figure}
+
 
 The tractability follows from the partition. The test runs on a nine-node block, not on the full
 network. Its lift is $2^{9}$, small enough that the delayed algebraic form stays within reach where
@@ -483,7 +472,7 @@ It is a statement about where the network can rest.
 \label{tab:setupA}
 \begin{tabular}{lcccc}
 \toprule
-Cohort / regime & Resistance & Apoptosis & Proliferation & All three \\
+Cohort / regime & Resistance-off & Apoptosis-on & Proliferation-off & All three \\
 \midrule
 TCGA, isolated   & \BBCNAStaticRankedTcgaIsoResistanceOff & \BBCNAStaticRankedTcgaIsoApoptosisOn & \BBCNAStaticRankedTcgaIsoProliferationOff & n/a \\
 TCGA, sequenced  & \BBCNAStaticRankedTcgaSeqResistanceOff & \BBCNAStaticRankedTcgaSeqApoptosisOn  & \BBCNAStaticRankedTcgaSeqProliferationOff  & \BBCNAStaticRankedTcgaSeqAllThree \\
@@ -509,7 +498,7 @@ It is why the apoptosis core must be modelled on its own terms.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.6\textwidth]{figures/fig2_scc.png}
+\includegraphics[width=0.9\textwidth]{figures/fig2_scc.png}
 \caption{\textbf{The pathway coupling graph.} The dominant 16-pathway strongly-connected component is shaded as the cyclic core; the coupling hubs (AKT1, MAPK1, FOXO3, TP53) are ringed. The two auxiliary input modules are excluded.}
 \label{fig:scc}
 \end{figure}
@@ -784,6 +773,23 @@ manuscript.
 
 
 \input{appendix_theorem.tex}
+
+
+\section{The forward-stabilisation kernel search}
+\label{app:kernelsearch}
+Figure~\ref{fig:flowstab} sets out the kernel search of Section~\ref{sec:localstab-methods} step by
+step, in the form in which it is implemented.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/figC_flow_stabilize.png}
+\caption{\textbf{The forward-stabilisation kernel search.} Candidate clamp sets are enumerated in
+increasing size. For each set the algorithm forms the clamped operator and accepts the set only if
+it drives every state of the block to the target, not only the patient's current state. The
+smallest accepted set is kept and ties are broken deterministically. The test is tractable on the
+nine-node switch block, whose lift is $2^{9}$, and not on the full 141-node network.}
+\label{fig:flowstab}
+\end{figure}
 
 
 \begin{thebibliography}{99}
